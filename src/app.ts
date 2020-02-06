@@ -9,6 +9,7 @@ import cors from 'cors';
 import logConfig from './config/logConfig';
 
 import routes from './routes';
+import middlewares from './config/middlewares';
 
 import './database';
 
@@ -30,7 +31,7 @@ class App {
   }
 
   middlewares() {
-    this.server.use(express.json());
+    middlewares(this.server);
   }
 
   routes() {
