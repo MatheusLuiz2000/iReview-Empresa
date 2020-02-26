@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import path from 'path';
 
-class Welcome {
+class TedController {
   docs = (req, res) => {
     res.sendFile(path.resolve('./apidoc/index.html'));
   };
@@ -26,4 +26,4 @@ class Welcome {
   };
 }
 
-export default new Welcome();
+export default new TedController();

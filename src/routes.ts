@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import express, { Router } from 'express';
 
-import defaultController from './app/controllers/defaultController';
+import defaultController from './app/controllers/TedController';
 
 const routes = new Router();
 

@@ -1,5 +1,5 @@
 TN:
-SF:/Users/nicholasferreira/Desktop/service-pattern/src/app/controllers/defaultController.ts
+SF:/Users/macbook02/Documents/adiante_ted/src/app/controllers/TedController.ts
 FN:1,_interopRequireDefault
 FN:5,(anonymous_1)
 FN:6,(anonymous_2)
@@ -48,7 +48,7 @@ BRF:6
 BRH:3
 end_of_record
 TN:
-SF:/Users/nicholasferreira/Desktop/service-pattern/src/app/models/Exemplo.ts
+SF:/Users/macbook02/Documents/adiante_ted/src/app/models/Exemplo.ts
 FN:1,_interopRequireDefault
 FN:6,(anonymous_1)
 FNF:2
@@ -70,7 +70,7 @@ BRF:4
 BRH:3
 end_of_record
 TN:
-SF:/Users/nicholasferreira/Desktop/service-pattern/src/app/squemas/Exemplo.ts
+SF:/Users/macbook02/Documents/adiante_ted/src/app/squemas/Exemplo.ts
 FNF:0
 FNH:0
 LF:0
