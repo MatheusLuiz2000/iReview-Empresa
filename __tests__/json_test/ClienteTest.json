@@ -1,0 +1,92 @@
+{
+  "data": {
+    "Cliente": {
+      "id": 1,
+      "email": "matheusluiz200599@gmail.com",
+      "documento": "29488796000155",
+      "senha": "12312312321321312e21",
+      "razao_social": "Débora e Gael Corretores Associados Ltda",
+      "fantasia": "FANTASIA e Gael Corretores Associados Ltda",
+      "codigo_validacao": "312321312S2S2",
+      "expiracao_codigo": "2020-03-02T16:24:03.748Z",
+      "limite": "1200.000",
+      "grupo_autorizacao": 1,
+      "grupo_consulta": 1,
+      "tipo_aprovacao_id": 1,
+      "etapa_cadastro": 1,
+      "recebe_email": 1,
+      "validado": 1,
+      "desativado_em": null,
+      "criado_em": "2020-03-02T16:24:03.748Z",
+      "atualizado_em": "2020-03-02T16:24:03.748Z"
+    },
+    "Banco": {
+      "id": 1,
+      "tipo_bancos_id": 2,
+      "cliente_id": 1,
+      "agencia": "2323",
+      "conta": "83283",
+      "digito": "1",
+      "tipo_conta": 1,
+      "principal": true,
+      "desativado_em": null,
+      "criado_em": "2020-03-02T16:24:03.768Z",
+      "atualizado_em": "2020-03-02T16:24:03.768Z",
+      "codigo_banco": "001"
+    },
+    "Endereco": {
+      "id": 1,
+      "cliente_id": 1,
+      "tipo_endereco": 1,
+      "cep_id": 964,
+      "numero": "321",
+      "complemento": "ldasldasldlsaldsa",
+      "principal": true,
+      "desativado_em": null,
+      "criado_em": "2020-03-02T16:24:03.855Z",
+      "atualizado_em": "2020-03-02T16:24:03.855Z",
+      "Cep": {
+        "id": 964,
+        "cep": "01001000",
+        "tipo": "Praça",
+        "nome_logradouro": "da Sé",
+        "logradouro": "Praça da Sé",
+        "bairro_id": 1,
+        "cidade_id": 1,
+        "estado_id": 27,
+        "tipo_sem_acento": "Praca",
+        "nome_logradouro_sem_acento": "da Se",
+        "logradouro_sem_acento": "Praca da Se",
+        "latitude": "-23.5503099",
+        "longitude": "-46.6342009",
+        "cep_ativo": "S",
+        "criado_em": "2020-02-12T14:16:51.329Z",
+        "atualizado_em": "2020-02-12T14:16:51.329Z",
+        "Bairro": {
+          "id": 1,
+          "bairro": "Sé",
+          "bairro_sem_acento": "Se",
+          "cidade_id": 1,
+          "estado": "SP",
+          "latitude": "-23.5503099",
+          "longitude": "-46.6342009",
+          "criado_em": "2020-02-12T14:04:23.393Z",
+          "atualizado_em": "2020-02-12T14:04:23.393Z"
+        },
+        "Cidade": {
+          "id": 1,
+          "cidade": "São Paulo",
+          "cidade_sem_acento": "Sao Paulo",
+          "estado": "SP",
+          "cidade_ibge": "3550308",
+          "ddd": "11",
+          "cidade_area": "1521.110",
+          "latitude": "-23.5503099",
+          "longitude": "-46.6342009",
+          "criado_em": "2020-02-12T14:03:45.596Z",
+          "atualizado_em": "2020-02-12T14:03:45.596Z"
+        }
+      }
+    }
+  }
+}

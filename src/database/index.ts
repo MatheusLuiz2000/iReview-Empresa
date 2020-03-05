@@ -1,14 +1,22 @@
-import Exemplo from '../app/models/Exemplo';
-
 import SQLConfig from '../config/database';
+import Ted from '../app/models/Ted';
+import Retorno_ted from '../app/models/Retorno_ted';
+import Codigo_retorno_banco from '../app/models/Codigo_retorno_banco';
+import Pendencia_ted from '../app/models/Pendencia_ted';
+
 // import mongoose from 'mongoose';
 
 const Sequelize = require('sequelize');
 
-const models = [Exemplo];
+const models = [
+  Ted,
+  Codigo_retorno_banco,
+  Retorno_ted,
+  Pendencia_ted
+];
 
 class Database {
-  connection;
+  connection; 
 
   NOSQLConnection;
 
