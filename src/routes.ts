@@ -11,7 +11,6 @@ routes.get('/teds/:id', TedValidator.buscaTedById, TedController.listarById); //
 routes.post('/teds/cadastrar/', TedValidator.criaTed, TedController.criarTed);
 routes.post('/teds/gerar/', TedController.gerarTed);
 routes.post('/teds/ler/retorno', TedController.leituraRetornoTed);
-routes.post('/teste', TedController.teste);
 routes.get('/health', TedController.health); // Rota para o health check
 routes.get('/testes', TedController.testes); // Rota para o health check
 

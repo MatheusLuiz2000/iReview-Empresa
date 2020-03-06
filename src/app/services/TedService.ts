@@ -51,6 +51,7 @@ class TedService {
   }
 
   public async criarTed(cliente_id, operacao_id) {
+
     const buscaDadosCliente = await Cliente_api.consulta(cliente_id);
 
     if (buscaDadosCliente.status !== 200) {
@@ -95,7 +96,7 @@ class TedService {
     }
   }
 
-  public async gerarTed(teste) {
+  public async gerarTed() {
     moment_timezone().tz("America/Fortaleza");
 
     let InformacoesTed = await Ted_model.findAll({
@@ -120,9 +121,8 @@ class TedService {
     }
 
     const RetornoTedLog = new Array();
-    const tempoAgora = new Date();
     const DadosTeds = new Array();
-
+    const tempoAgora = new Date();
 
     let contadorTeds = 1;
     let contadorLinha = 1;
@@ -130,9 +130,9 @@ class TedService {
     for (let element of InformacoesTed) {
 
       const buscaDadosCliente = await Cliente_api.consulta(element.cliente_id);
-      
+
       if (buscaDadosCliente.status !== 200) {
-        
+
         RetornoTedLog.push({
           operacao_id: element.operacao_id,
           cliente_id: element.cliente_id,
@@ -141,10 +141,17 @@ class TedService {
           mensagem: "Não foi possivel encontrar o cliente"
         });
 
-        Log.enviar({
-          nivel: `info`,
-          mensagem: `Informações da CRON de TED realizada no dia ${moment().format("dd/mm/yyyy")} e no horario ${moment().format('LTS')}`,
-          detalhes: `${RetornoTedLog}`
+        continue;
+      }
+
+      if (tempoAgora.getHours() > 15 && buscaDadosCliente.resposta.data.Banco.codigo_banco !== "341") {
+
+        RetornoTedLog.push({
+          operacao_id: element.operacao_id,
+          cliente_id: element.cliente_id,
+          motivo: "Ted deve ser efetuada manualmente",
+          tipo: 'nao-realizada',
+          mensagem: "Ted deve ser efetuada manualmente"
         });
 
         continue;
@@ -172,42 +179,32 @@ class TedService {
         continue;
       }
 
-      if (tempoAgora.getHours() > 15 && buscaDadosCliente.resposta.data.Banco.codigo_banco !== "341") {
-
-        RetornoTedLog.push({
-          operacao_id: element.operacao_id,
-          cliente_id: element.cliente_id,
-          motivo: "Ted deve ser efetuada manualmente",
-          tipo: 'nao-realizada',
-          mensagem: "Ted deve ser efetuada manualmente"
-        });
-
-        Log.enviar({
-          nivel: `info`,
-          mensagem: `Informações da CRON de TED realizada no dia ${moment().format("dd/mm/yyyy")} e no horario ${moment().format('LTS')}`,
-          detalhes: `${RetornoTedLog}`
-        });
-
-        continue;
-      }
-
       //GRAVAR REGISTRO DE TED
-      const geraDados = await geraDadosTed(buscaDadosCliente.resposta.data,contadorLinha);
+      const geraDados = await geraDadosTed(buscaDadosCliente.resposta.data, contadorLinha);
+
       DadosTeds.push(geraDados.dados);
       contadorTeds++;
       contadorLinha = parseInt(geraDados.linha);
     }
 
+    if (RetornoTedLog.length > 0) {
+      Log.enviar({
+        nivel: `info`,
+        mensagem: `Informações da CRON de TED realizada no dia ${moment().format("dd/mm/yyyy")} e no horario ${moment().format('LTS')}`,
+        detalhes: `${RetornoTedLog}`
+      });
+    }
 
-    await montarArquivo(DadosTeds,contadorTeds,"1.00");
+    //Montar o arquivo;
+    if (DadosTeds.length > 0) {
+      await montarArquivo(DadosTeds, contadorTeds, "1.00");
+    }
 
-    RetornoTedLog.push({
-      mensagem: "Ted realizada com sucesso"
-    })
-    
     return {
-      status:200,
-      dados: RetornoTedLog
+      status: 200,
+      dados: {
+        mensagem: "Execução realizada com sucesso!"
+      }
     }
   }
 

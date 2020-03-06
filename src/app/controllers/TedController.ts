@@ -32,6 +32,7 @@ class TedController {
   public async criarTed(req: Request, res: Response) {
  
     const { cliente_id , operacao_id } = req.body;
+
     const criarTed = await TedService.criarTed(cliente_id, operacao_id);
     
     return res.status(criarTed.status).json({
@@ -40,10 +41,8 @@ class TedController {
   }
 
   public async gerarTed(req: Request, res: Response) {
-    const { teste } = req.body;
 
-    const gerarTed = await TedService.gerarTed(teste);
-
+    const gerarTed = await TedService.gerarTed();
     return res.status(gerarTed.status).json({
       data: gerarTed.dados
     });
@@ -55,11 +54,6 @@ class TedController {
     const leituraTed = await TedService.lerTed(link_s3);
 
     return res.status(leituraTed).json();
-  }
-
-  public async teste(req: Request, res: Response) {
-    const conteudoLinhas = await axios.get("https://adiantesa-dev.s3.amazonaws.com/uploads/retorno/deposito/2019/10/REMESSA16860_1809201946.RET.20190918141820410");
-    console.log(conteudoLinhas);
   }
   health = (req, res) => {
     res.status(200).send('OK'); 

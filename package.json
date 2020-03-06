@@ -1,11 +1,11 @@
 {
   "name": "service-pattern",
-  "version": "1.0.6-0",
+  "version": "1.0.7-0",
   "description": "",
   "main": "server.js",
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test && yarn version --prepatch --no-git-tag-version && git add ."
+      "pre-commit": "yarn version --prepatch --no-git-tag-version && git add ."
     }
   },
   "scripts": {

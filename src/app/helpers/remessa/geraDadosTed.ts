@@ -2,15 +2,17 @@ import segmento_a from '../remessa/segmento_a';
 import segmento_b from '../remessa/segmento_b';
 
 export default async (dados,contador_linha) => {
+  
   const segmentoADados = await segmento_a(dados,contador_linha);
   contador_linha++;
   const segmentoBDados = await segmento_b(dados,contador_linha);
   contador_linha++;
   const quebra_linha = String.fromCharCode(13) + String.fromCharCode(10);
-  // const identificador = moment().valueOf();
-  let espaco = "";
 
+  let espaco = "";
   let dadosCliente = "";
+
+  
   //################################################################ SEGMENTO A ################################################################################################################
 
   let segmento_a_linha =

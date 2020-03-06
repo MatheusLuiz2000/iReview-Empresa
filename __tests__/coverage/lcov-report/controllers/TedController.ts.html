@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.53% </span>
+                <span class="strong">75.86% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/34</span>
+                <span class='fraction'>22/29</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.29% </span>
+                <span class="strong">69.23% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/14</span>
+                <span class='fraction'>9/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.86% </span>
+                <span class="strong">70.83% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/28</span>
+                <span class='fraction'>17/24</span>
             </div>
         
             
@@ -119,16 +119,10 @@
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -159,18 +153,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,11 +175,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -228,6 +216,7 @@ class TedController {
   public async criarTed(req: Request, res: Response) {
  
     const { cliente_id , operacao_id } = req.body;
+&nbsp;
     const criarTed = await TedService.criarTed(cliente_id, operacao_id);
     
     return res.status(criarTed.status).json({
@@ -236,10 +225,8 @@ class TedController {
   }
 &nbsp;
   public async gerarTed(req: Request, res: Response) {
-    const { teste } = req.body;
 &nbsp;
-    const gerarTed = await TedService.gerarTed(teste);
-&nbsp;
+    const gerarTed = await TedService.gerarTed();
     return res.status(gerarTed.status).json({
       data: gerarTed.dados
     });
@@ -251,11 +238,6 @@ class TedController {
     const leituraTed = await TedService.lerTed(link_s3);
 &nbsp;
     return res.status(leituraTed).json();
-  }
-&nbsp;
-  p<span class="fstat-no" title="function not covered" >ub</span>lic async teste(req: Request, res: Response) {
-    const conteudoLinhas = <span class="cstat-no" title="statement not covered" >await axios.get("https://adiantesa-dev.s3.amazonaws.com/uploads/retorno/deposito/2019/10/REMESSA16860_1809201946.RET.20190918141820410");</span>
-<span class="cstat-no" title="statement not covered" >    console.log(conteudoLinhas);</span>
   }
   health = (req, res) =&gt; {
     res.status(200).send('OK'); 
@@ -270,7 +252,7 @@ export default new TedController();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Mar 05 2020 16:11:10 GMT-0300 (Brasilia Standard Time)
+                at Fri Mar 06 2020 09:40:35 GMT-0300 (GMT-03:00)
             </div>
         </div>
         <script src="../prettify.js"></script>

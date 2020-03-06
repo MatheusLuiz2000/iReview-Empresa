@@ -4,6 +4,7 @@ import trailerArquivo from './trailerArquivo';
 import fs from 'fs';
 
 export default async (dados, quantidade, soma) => {
+  
   const headerDados = await header();
 
   const trailer_lote_dados = await trailer_registro(quantidade, soma);
