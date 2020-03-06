@@ -11,7 +11,6 @@ class ConsultaCliente {
       resposta
     }
 
-    console.log(`${process.env.CLIENTE_BASE}/${id}`);
     let consulta: Object;
 
     try {

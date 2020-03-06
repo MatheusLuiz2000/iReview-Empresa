@@ -18,7 +18,6 @@ const axiosMock = new MockAdapter(axios);
 describe('Apidoc', () => {
 
   beforeEach(async () => {
-    console.log("tete");
     await truncate();
   });
 
@@ -28,7 +27,6 @@ describe('Apidoc', () => {
   });
 
   it('Deve dar errado devido que o Cliente, banco e endereco estão vazios', async () => {
-    console.log("aq");
     axiosMock.onGet(new RegExp(`${process.env.CLIENTE_BASE}/*`)).reply(200, {
       "data": {
         "Cliente": null,
@@ -48,7 +46,6 @@ describe('Apidoc', () => {
   });
 
   it('Deve dar errado devido que o Banco e endereco estão vazios', async () => {
-    console.log("aq2");
     axiosMock.onGet(new RegExp(`${process.env.CLIENTE_BASE}/*`)).reply(200, {
       "data": {
         "Cliente": {
@@ -87,7 +84,6 @@ describe('Apidoc', () => {
   });
 
   it('Deve dar errado devido que o Banco e endereco estão vazios', async () => {
-    console.log("aq3");
 
     axiosMock.onGet(new RegExp(`${process.env.CLIENTE_BASE}/*`)).reply(200, {
       "data": {
@@ -127,7 +123,6 @@ describe('Apidoc', () => {
   });
 
   it('Deve dar errado devido que o endereco está vazio', async () => {
-    console.log("aq4");
 
     axiosMock.onGet(new RegExp(`${process.env.CLIENTE_BASE}/*`)).reply(200, {
       "data": {
@@ -180,7 +175,6 @@ describe('Apidoc', () => {
   });
 
   it('Deve dar certo a criacao da solicitação de ted', async () => {
-    console.log("aq5");
 
     axiosMock.onGet(new RegExp(`${process.env.CLIENTE_BASE}/*`)).reply(200, ClienteTest);
 
@@ -195,7 +189,6 @@ describe('Apidoc', () => {
   });
 
   it('Deve dar certo porém deve retornar dados nulo devido que não existe nenhuma solicitação de TED.', async () => {
-    console.log("aq6");
 
     axiosMock.onGet(new RegExp(`${process.env.CLIENTE_BASE}/*`)).reply(200, ClienteTest);
 
@@ -207,7 +200,6 @@ describe('Apidoc', () => {
   });
 
   it('Deve dar errado', async () => {
-    console.log("aq7");
     await Ted_model.create({
       id: 232,
       cliente_id: 1,
@@ -221,14 +213,11 @@ describe('Apidoc', () => {
 
     const response = await request(app)
       .post('/teds/gerar/')
-
-    console.log(response.body);
 
     expect(response.status).toBe(200);
   });
 
   it('Deve dar certo porém nao foi possivel recuperar os dados do cliente', async () => {
-    console.log("aq8");
 
     await Ted_model.create({
       id: 232,
@@ -244,13 +233,11 @@ describe('Apidoc', () => {
     const response = await request(app)
       .post('/teds/gerar/')
 
-    expect(response.body.data[0].motivo).toBe("Localizar o cliente");
+    expect(response.body.data.retorno[0].motivo).toBe("Localizar o cliente");
     expect(response.status).toBe(200);
   });
 
   it('Deve dar certo porém falhou em 2 validacoes(banco e endereco)', async () => {
-
-    console.log("aq9");
 
     await Ted_model.create({
       id: 233,
@@ -292,8 +279,8 @@ describe('Apidoc', () => {
     const response = await request(app)
       .post('/teds/gerar/')
 
-    expect(response.body.data[0].validacoes[0].dado).toBe("Banco");
-    expect(response.body.data[0].validacoes[1].dado).toBe("Endereço");
+    expect(response.body.data.retorno[0].validacoes[0].dado).toBe("Banco");
+    expect(response.body.data.retorno[0].validacoes[1].dado).toBe("Endereço");
 
     expect(response.status).toBe(200);
   });
@@ -322,7 +309,7 @@ describe('Apidoc', () => {
     const response = await request(app)
       .post('/teds/gerar/')
 
-    expect(response.body.data[0].motivo).toBe("Ted deve ser efetuada manualmente");
+    expect(response.body.data.retorno[0].motivo).toBe("Ted deve ser efetuada manualmente");
     expect(response.status).toBe(200);
   });
 
@@ -353,7 +340,7 @@ describe('Apidoc', () => {
     expect(response.status).toBe(200);
   });
 
-  it('Deve dar certo e ler o arquivo corretamente', async () => { 
+  it('Deve dar certo e ler o arquivo corretamente', async () => {
 
     const response = await request(app)
       .post('/teds/ler/retorno')
@@ -365,9 +352,9 @@ describe('Apidoc', () => {
 
     let lastId = "";
 
-    buscaretornoTeds.forEach(function(i, idx, array){
-      if (idx === array.length - 1){ 
-          lastId = i.id; 
+    buscaretornoTeds.forEach(function (i, idx, array) {
+      if (idx === array.length - 1) {
+        lastId = i.id;
       }
     });
 

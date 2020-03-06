@@ -24,7 +24,6 @@ export default async (link_s3) => {
     const conteudoLinhas = await rp(link_s3);
 
     if(!conteudoLinhas) {
-      console.log("aq");
       return 0;
     }
 
@@ -66,7 +65,6 @@ export default async (link_s3) => {
     return 200;
 
   } catch (error) {
-    console.log(error);
     return 400;
   }
 }

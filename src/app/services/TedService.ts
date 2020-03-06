@@ -179,7 +179,6 @@ class TedService {
         continue;
       }
 
-      //GRAVAR REGISTRO DE TED
       const geraDados = await geraDadosTed(buscaDadosCliente.resposta.data, contadorLinha);
 
       DadosTeds.push(geraDados.dados);
@@ -203,14 +202,14 @@ class TedService {
     return {
       status: 200,
       dados: {
-        mensagem: "Execução realizada com sucesso!"
+        mensagem: "Execução realizada com sucesso!",
+        retorno: RetornoTedLog
       }
     }
   }
 
   public async lerTed(link_s3) {
     const processarRetorno = await processaRetorno(link_s3);
-    console.log("RETORNO" + processarRetorno);
     return processarRetorno;
   }
 }

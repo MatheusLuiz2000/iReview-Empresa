@@ -4,7 +4,7 @@ import trailerArquivo from './trailerArquivo';
 import fs from 'fs';
 
 export default async (dados, quantidade, soma) => {
-  
+
   const headerDados = await header();
 
   const trailer_lote_dados = await trailer_registro(quantidade, soma);
@@ -14,7 +14,6 @@ export default async (dados, quantidade, soma) => {
   const quebra_linha = String.fromCharCode(13) + String.fromCharCode(10);
 
   let arquivoFinal = "";
-
   let espaco = "";
 
   //################################################################ HEADER LINE ################################################################################################################
@@ -102,7 +101,7 @@ export default async (dados, quantidade, soma) => {
 
   header_lote += headerDados.HEADER_LOTE.ENDERECO.padEnd(30);
 
-  header_lote += headerDados.HEADER_LOTE.NUMERO_LOCAL.padStart(5,'0');
+  header_lote += headerDados.HEADER_LOTE.NUMERO_LOCAL.padStart(5, '0');
 
   header_lote += headerDados.HEADER_LOTE.COMPLEMENTO.padEnd(15);
 
@@ -115,6 +114,8 @@ export default async (dados, quantidade, soma) => {
   header_lote += espaco.padEnd(18);
 
   arquivoFinal += header_lote + quebra_linha;
+
+  //################################################################ SEGMENTOS A E B ############################################################################################################
 
   dados.forEach(element => {
     arquivoFinal += element;
@@ -156,7 +157,7 @@ export default async (dados, quantidade, soma) => {
   arquivoFinal += quebra_linha;
 
   fs.writeFile("TESTE.REM", arquivoFinal, function (err) {
-      if (err) throw err;
-    }
+    if (err) throw err;
+  }
   );
 }
