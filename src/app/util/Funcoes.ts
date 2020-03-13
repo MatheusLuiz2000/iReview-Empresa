@@ -2,36 +2,44 @@ import S3 from 'aws-sdk/clients/s3';
 import codigos_retorno from '../models/Codigo_retorno_banco';
 import ted from '../models/Ted';
 
+const s3 = new S3({
+  apiVersion: '2006-03-01',
+  accessKeyId: 'AKIAUQBZ2ECKT55I6NTB',
+  secretAccessKey: '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'
+});
 class Funcoes {
   public async removerCaractersEspeciais(string) {
     let formatado;
     try {
-      formatado = string.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z-:,/.\s])/g, '');
+      formatado = string
+        .normalize('NFD')
+        .replace(/([\u0300-\u036f]|[^0-9a-zA-Z-:,/.\s])/g, '');
       return formatado;
-    } catch (error) { }
-
+    } catch (error) {}
   }
 
-  public async salvarS3(body) {
-
-    const s3 = new S3({
-      apiVersion: '2006-03-01',
-      accessKeyId: 'AKIAUQBZ2ECKT55I6NTB',
-      secretAccessKey: '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'
-    });
+  public async salvarS3(conteudo, nome_arquivo) {
+    nome_arquivo = nome_arquivo.split('.');
 
     const params = {
       Bucket: 'adiantesa',
-      Key: `teste/uploads/remessas/${new Date().getFullYear()}/${new Date().getUTCMonth() +
-        1}/${new Date().getUTCDate()}/${new Date().getTime()}.rem`,
-      Body: body
+      Key: `teste/${new Date().getFullYear()}/${new Date().getUTCMonth() + 1}/${
+        nome_arquivo[0]
+      }.REM`,
+      Body: conteudo
     };
 
     try {
       const { Location } = await s3.upload(params).promise();
-      return Location;
+      return {
+        status: 200,
+        url: Location
+      };
     } catch (err) {
-      return false;
+      return {
+        status: 400,
+        error: err
+      };
     }
   }
 
@@ -45,18 +53,18 @@ class Funcoes {
   }
 
   public async formata_cedente(cedente) {
-    let cedente_split = cedente.split("-");
-    let cedente_formatado = "";
+    let cedente_split = cedente.split('-');
+    let cedente_formatado = '';
 
     cedente_split.forEach(element => {
-      cedente_formatado += element.substr(0, 1).toUpperCase() + element.substr(1) + " ";
+      cedente_formatado += `${element.substr(0, 1).toUpperCase() +
+        element.substr(1)} `;
     });
 
     return cedente_formatado;
   }
 
   public async agencia_conta(string) {
-
     let agencia_formatado = string.substr(1, 4);
     let conta_formatado = string.substr(7, 12).replace(/^0+/, '');
     let digito = string.substr(19, 1);
@@ -67,48 +75,43 @@ class Funcoes {
       agencia_formatado,
       conta_formatado,
       digito
-    }
+    };
   }
 
   public async formata_moeda(valor) {
-
     new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL',
+      currency: 'BRL'
     }).format(valor);
-
   }
 
   public async buscaDescricao(descricao) {
-
     const buscaDescricao = await codigos_retorno.findOne({
-      attributes: ['id','codigo','mensagem'],
+      attributes: ['id', 'codigo', 'mensagem'],
       where: {
-        codigo: descricao,
+        codigo: descricao
       }
     });
 
-    if(!buscaDescricao) {
+    if (!buscaDescricao) {
       return false;
     }
-    
+
     return buscaDescricao.dataValues;
   }
 
   public async buscaTedId(uso_empresa) {
-
     const buscaTedId = await ted.findOne({
       where: {
-        identificacao: uso_empresa,
+        identificacao: uso_empresa
       }
     });
 
-    if(!buscaTedId) {
+    if (!buscaTedId) {
       return false;
     }
-    
-    return buscaTedId.dataValues.id;
 
+    return buscaTedId.dataValues.id;
   }
 }
 export default new Funcoes();

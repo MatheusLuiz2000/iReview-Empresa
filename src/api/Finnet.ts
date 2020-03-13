@@ -1,8 +1,8 @@
 import axios from 'axios';
 import 'dotenv/config';
 
-class ConsultaCliente {
-  public async consulta(id) {
+class ConsultaFinnet {
+  public async criarRegistroRemessa(link_s3, tipo_arquivo) {
     let resposta;
 
     let consultaResponse = {
@@ -14,10 +14,15 @@ class ConsultaCliente {
 
     try {
       consulta = await axios({
-        method: 'get',
-        url: `${process.env.CLIENTE_BASE}/${id}`
+        method: 'POST',
+        url: `${process.env.FINNET_BASE}/finnet/salvar/remessa`,
+        data: {
+          link_s3,
+          tipo_arquivo
+        }
       });
     } catch (error) {
+      console.log(error);
       if (error.response) {
         consultaResponse.resposta = error.response.data;
         consultaResponse.status = error.response.status;
@@ -42,4 +47,4 @@ class ConsultaCliente {
   }
 }
 
-export default new ConsultaCliente();
+export default new ConsultaFinnet();

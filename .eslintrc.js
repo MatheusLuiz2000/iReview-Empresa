@@ -40,7 +40,11 @@ module.exports = {
     }],
     "prefer-const": 0,
     "no-var": 2,
-    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    "no-array-constructor" : "off",
+    "no-restricted-syntax" : "off",
+    "no-await-in-loop": "off",
+    "no-continue" : "off"
   }
   }
 

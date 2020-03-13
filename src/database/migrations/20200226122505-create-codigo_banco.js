@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('tb_codigos_retorno_banco', {
@@ -18,13 +17,13 @@ module.exports = {
       },
       ocorrencia_status: {
         type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
+        allowNull: true,
+        defaultValue: false
       },
       ocorrencia_responsabilidade_adiante: {
         type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
+        allowNull: true,
+        defaultValue: false
       }
     });
   },

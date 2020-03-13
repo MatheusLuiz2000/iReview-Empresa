@@ -1,15 +1,11 @@
-import * as Yup from 'yup';
-
 class TedValidator {
-
   public async buscaTedById(req, res, next) {
-
     const { id } = req.params;
 
     if (!id) {
       return res.status(400).json({
         data: {
-          "mensagem": "Id Inexistente"
+          mensagem: 'Id Inexistente'
         }
       });
     }
@@ -18,25 +14,34 @@ class TedValidator {
   }
 
   public async criaTed(req, res, next) {
-    const { cliente_id, operacao_id } = req.body;
+    const { cliente_id, operacao_id, valor_transferencia } = req.body;
 
     if (!cliente_id) {
-      res.status(400).json({
+      return res.status(400).json({
         data: {
-          mensagem: "Cliente ID não identificado"
+          mensagem: 'Cliente ID não identificado'
         }
-      })
-    } else if (!operacao_id) {
-      res.status(400).json({
+      });
+    }
+
+    if (!operacao_id) {
+      return res.status(400).json({
         data: {
-          mensagem: "Operação ID não identificado"
+          mensagem: 'Operação ID não identificado'
         }
-      })
-    };
+      });
+    }
+
+    if (!valor_transferencia) {
+      return res.status(400).json({
+        data: {
+          mensagem: 'Valor de transferência não identificado'
+        }
+      });
+    }
 
     return next();
   }
-
-};
+}
 
 export default new TedValidator();

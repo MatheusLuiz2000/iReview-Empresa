@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('tb_teds', {
@@ -11,12 +9,16 @@ module.exports = {
       },
       cliente_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       operacao_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: true
+      },
+      valor_transferencia: {
+        type: Sequelize.DECIMAL(18, 3),
+        allowNull: false
       },
       identificacao: {
         type: Sequelize.STRING(20),

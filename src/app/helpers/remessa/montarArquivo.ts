@@ -1,10 +1,12 @@
+import Log from 'log-gcb';
 import header from './header';
 import trailer_registro from './trailer';
 import trailerArquivo from './trailerArquivo';
-import fs from 'fs';
+import salvarS3 from '../../util/Funcoes';
+import Ted_model from '../../models/Ted';
+import Finnet from '../../../api/Finnet';
 
-export default async (dados, quantidade, soma) => {
-
+export default async (dados, quantidade, soma, ted_confirmadas) => {
   const headerDados = await header();
 
   const trailer_lote_dados = await trailer_registro(quantidade, soma);
@@ -13,10 +15,10 @@ export default async (dados, quantidade, soma) => {
 
   const quebra_linha = String.fromCharCode(13) + String.fromCharCode(10);
 
-  let arquivoFinal = "";
-  let espaco = "";
+  let arquivoFinal = '';
+  let espaco = '';
 
-  //################################################################ HEADER LINE ################################################################################################################
+  // ################################################################ HEADER LINE ################################################################################################################
 
   let header_line =
     headerDados.HEADER.COD_BANCO +
@@ -32,13 +34,11 @@ export default async (dados, quantidade, soma) => {
 
   header_line += espaco.padEnd(20);
 
-  header_line +=
-    headerDados.HEADER.AGENCIA.padStart(5, '0');
+  header_line += headerDados.HEADER.AGENCIA.padStart(5, '0');
 
   header_line += espaco.padEnd(1);
 
-  header_line +=
-    headerDados.HEADER.NUMERO_CONTA.padStart(12, '0');
+  header_line += headerDados.HEADER.NUMERO_CONTA.padStart(12, '0');
 
   header_line += espaco.padEnd(1);
 
@@ -46,7 +46,6 @@ export default async (dados, quantidade, soma) => {
     headerDados.HEADER.DAC +
     headerDados.HEADER.NOME_EMPRESA.padEnd(30) +
     headerDados.HEADER.NOME_BANCO.padEnd(30);
-
 
   header_line += espaco.padEnd(10);
 
@@ -63,7 +62,7 @@ export default async (dados, quantidade, soma) => {
 
   arquivoFinal += header_line + quebra_linha;
 
-  //################################################################ HEADER LOTE ################################################################################################################
+  // ################################################################ HEADER LOTE ################################################################################################################
 
   let header_lote =
     headerDados.HEADER_LOTE.COD_BANCO +
@@ -76,7 +75,8 @@ export default async (dados, quantidade, soma) => {
 
   header_lote += espaco.padEnd(1);
 
-  header_lote += headerDados.HEADER_LOTE.EMPRESA_INSCRICAO +
+  header_lote +=
+    headerDados.HEADER_LOTE.EMPRESA_INSCRICAO +
     headerDados.HEADER_LOTE.INSCRICAO_NUMERO;
 
   header_lote += espaco.padEnd(4);
@@ -115,13 +115,13 @@ export default async (dados, quantidade, soma) => {
 
   arquivoFinal += header_lote + quebra_linha;
 
-  //################################################################ SEGMENTOS A E B ############################################################################################################
+  // ################################################################ SEGMENTOS A E B ############################################################################################################
 
   dados.forEach(element => {
     arquivoFinal += element;
   });
 
-  //################################################################ TRAILER LOTE ################################################################################################################
+  // ################################################################ TRAILER LOTE ################################################################################################################
 
   let trailer_lote =
     trailer_lote_dados.TRAILER.CODIGO_BANCO +
@@ -130,15 +130,18 @@ export default async (dados, quantidade, soma) => {
 
   trailer_lote += espaco.padEnd(9);
 
-  trailer_lote += trailer_lote_dados.TRAILER.QUANTIDADE_REGISTRO.padStart(6, '0');
+  trailer_lote += trailer_lote_dados.TRAILER.QUANTIDADE_REGISTRO.padStart(
+    6,
+    '0'
+  );
   trailer_lote += trailer_lote_dados.TRAILER.SOMA_PAGAMENTOS.padStart(18, '0');
-  trailer_lote += espaco.padStart(18, "0");
+  trailer_lote += espaco.padStart(18, '0');
   trailer_lote += espaco.padEnd(171);
   trailer_lote += espaco.padEnd(10);
 
   arquivoFinal += trailer_lote + quebra_linha;
 
-  //################################################################ TRAILER ARQUIVO ULTIMO ################################################################################################################
+  // ################################################################ TRAILER ARQUIVO ULTIMO ################################################################################################################
 
   let trailer_arquivo_ultimo =
     trailerArquivoDados.TRAILER_ARQUIVO.CODIGO_BANCO +
@@ -147,8 +150,14 @@ export default async (dados, quantidade, soma) => {
 
   trailer_arquivo_ultimo += espaco.padEnd(9);
 
-  trailer_arquivo_ultimo += trailerArquivoDados.TRAILER_ARQUIVO.QUANTIDADE_LOTES.padStart(6, '0');
-  trailer_arquivo_ultimo += trailerArquivoDados.TRAILER_ARQUIVO.QUANTIDADE_REGISTROS.padStart(6, '0');
+  trailer_arquivo_ultimo += trailerArquivoDados.TRAILER_ARQUIVO.QUANTIDADE_LOTES.padStart(
+    6,
+    '0'
+  );
+  trailer_arquivo_ultimo += trailerArquivoDados.TRAILER_ARQUIVO.QUANTIDADE_REGISTROS.padStart(
+    6,
+    '0'
+  );
 
   trailer_arquivo_ultimo += espaco.padEnd(211);
 
@@ -156,8 +165,47 @@ export default async (dados, quantidade, soma) => {
 
   arquivoFinal += quebra_linha;
 
-  fs.writeFile("TESTE.REM", arquivoFinal, function (err) {
-    if (err) throw err;
+  const salvaS3 = await salvarS3.salvarS3(arquivoFinal, 'aa');
+
+  if (salvaS3.error) {
+    Log.enviar({
+      nivel: `error`,
+      mensagem: `Erro ao salvar o s3`,
+      detalhes: `${salvaS3.error}`
+    });
+
+    return {
+      status: 400
+    };
   }
+
+  const criarRemessaFinnet = await Finnet.criarRegistroRemessa(
+    salvaS3.url,
+    'deposito'
   );
-}
+
+  if (criarRemessaFinnet.status !== 200) {
+    Log.enviar({
+      nivel: `error`,
+      mensagem: `Não foi possivel criar a remessa na API da finnet`,
+      detalhes: `${salvaS3.error}`
+    });
+
+    return {
+      status: 400
+    };
+  }
+
+  for (let element of ted_confirmadas) {
+    await Ted_model.update(
+      {
+        remessa_id: criarRemessaFinnet.resposta.data.remessa_id
+      },
+      {
+        where: {
+          id: element
+        }
+      }
+    );
+  }
+};
