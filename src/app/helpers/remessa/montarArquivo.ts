@@ -168,11 +168,11 @@ export default async (dados, quantidade, soma, ted_confirmadas) => {
   const salvaS3 = await salvarS3.salvarS3(arquivoFinal, 'aa');
 
   if (salvaS3.error) {
-    Log.enviar({
-      nivel: `error`,
-      mensagem: `Erro ao salvar o s3`,
-      detalhes: `${salvaS3.error}`
-    });
+    Log.erro(
+      process.env.HEADERS_GLOBAIS,
+      'Erro ao salvar no S3',
+      salvaS3.error
+    );
 
     return {
       status: 400
@@ -185,11 +185,11 @@ export default async (dados, quantidade, soma, ted_confirmadas) => {
   );
 
   if (criarRemessaFinnet.status !== 200) {
-    Log.enviar({
-      nivel: `error`,
-      mensagem: `Não foi possivel criar a remessa na API da finnet`,
-      detalhes: `${salvaS3.error}`
-    });
+    Log.erro(
+      process.env.HEADERS_GLOBAIS,
+      'Não foi possivel criar a remessa na API da finnet',
+      criarRemessaFinnet
+    );
 
     return {
       status: 400

@@ -35,6 +35,13 @@ class TedController {
     });
   }
 
+  public async listarConsolidada(req, res) {
+    const { id } = req.params;
+    const { status, data } = await TedService.listarConsolidada(id);
+
+    return res.status(status).json(data);
+  }
+
   // Criacao do registro de Ted
   public async criarTed(req: Request, res: Response) {
     const { cliente_id, operacao_id, valor_transferencia } = req.body;

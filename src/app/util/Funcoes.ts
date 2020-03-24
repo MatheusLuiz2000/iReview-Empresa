@@ -64,6 +64,8 @@ class Funcoes {
     return cedente_formatado;
   }
 
+  leituraRetornoTed;
+
   public async agencia_conta(string) {
     let agencia_formatado = string.substr(1, 4);
     let conta_formatado = string.substr(7, 12).replace(/^0+/, '');

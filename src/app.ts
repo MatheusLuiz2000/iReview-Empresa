@@ -44,17 +44,21 @@ class App {
 
   exceptionHandler() {
     this.server.use(async (err, req, res, next) => {
+      const errors = await new Youch(err, req).toJSON();
       if (process.env.NODE_ENV === 'develop') {
-        const errors = await new Youch(err, req).toJSON();
-
-        Log.enviar({
-          nivel: 'erro',
-          mensagem: 'ErrBack: Erro da Api',
-          detalhes: err.toString()
+        Log.erro(req, 'ErrBack: Erro da Api', {
+          detalhes: errors
         });
-        return res.status(500).json(errors);
+        return res.status(500).json(err.stack);
       }
-      return res.status(500).json({ error: 'Internal server error' });
+
+      Log.erro(req, 'ErrBack: Erro da Api', {
+        detalhes: errors
+      });
+
+      return res
+        .status(500)
+        .json({ error: 'Erro interno do servidor', errors });
     });
   }
 }

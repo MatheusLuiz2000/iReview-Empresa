@@ -9,6 +9,7 @@ import validaInformacoesTed from '../helpers/remessa/validacoesTed';
 import Pendencia_ted from '../models/Pendencia_ted';
 import montarArquivo from '../helpers/remessa/montarArquivo';
 import processaRetorno from '../helpers/retorno/processaRetorno';
+import Retorno_ted from '../models/Retorno_ted';
 
 class TedService {
   public async listar() {
@@ -44,6 +45,30 @@ class TedService {
     return {
       status: 200,
       dados: buscaTedsById
+    };
+  }
+
+  public async listarConsolidada(id) {
+    const consulta = await Retorno_ted.findOne({
+      where: {
+        ted_id: id,
+        status_banco: 1
+      }
+    });
+
+    if (!consulta) {
+      return {
+        status: 200,
+        data: {
+          consolidada: false
+        }
+      };
+    }
+    return {
+      status: 200,
+      data: {
+        consolidada: true
+      }
     };
   }
 
@@ -95,13 +120,11 @@ class TedService {
     });
 
     if (InformacoesTed.length <= 0) {
-      Log.enviar({
-        nivel: `info`,
-        mensagem: `Não há nenhuma ted para ser criada no dia ${moment().format(
-          'dd/mm/yyyy'
-        )} e no horario ${moment().format('LTS')}`,
-        detalhes: `${InformacoesTed}`
-      });
+      Log.alerta(
+        process.env.HEADERS_GLOBAIS,
+        'Não há nenhuma ted para ser criada',
+        InformacoesTed
+      );
 
       return {
         status: 200,
@@ -201,13 +224,11 @@ class TedService {
     }
 
     if (RetornoTedLog.length > 0) {
-      Log.enviar({
-        nivel: `info`,
-        mensagem: `Informações da CRON de TED realizada no dia ${moment().format(
-          'dd/mm/yyyy'
-        )} e no horario ${moment().format('LTS')}`,
-        detalhes: `${RetornoTedLog}`
-      });
+      Log.cron(
+        process.env.HEADERS_GLOBAIS,
+        'Informações da CRON de TED',
+        RetornoTedLog
+      );
     }
 
     // Montar o arquivo;
