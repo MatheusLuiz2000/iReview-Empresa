@@ -5,8 +5,12 @@ import express from 'express';
 import 'express-async-errors';
 
 import Log from 'log-gcb';
+import Sqs from 'sqs-gcb';
 import cors from 'cors';
 import logConfig from './config/logConfig';
+import sqsConfig from './config/sqsConfig';
+
+import sqsListener from './api/sqsListener';
 
 import routes from './routes';
 import middlewares from './config/middlewares';
@@ -18,7 +22,8 @@ class App {
 
   constructor() {
     this.server = express();
-
+    this.SqsListener();
+    this.sqs();
     this.logs();
     this.cors();
     this.middlewares();
@@ -28,6 +33,14 @@ class App {
 
   logs() {
     Log.setConfig(logConfig);
+  }
+
+  sqs() {
+    Sqs.setConfig(sqsConfig);
+  }
+
+  SqsListener() {
+    sqsListener.Start();
   }
 
   middlewares() {

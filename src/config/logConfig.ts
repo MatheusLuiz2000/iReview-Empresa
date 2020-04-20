@@ -14,6 +14,5 @@ export default {
   fila_sqs_master_prioridade:
     'https://sqs.sa-east-1.amazonaws.com/544005205437/logs-master-prioridade.fifo',
   ambiente: process.env.NODE_ENV ? process.env.NODE_ENV : 'sem informacoes',
-  versao: pacote.version ? pacote.version : 'sem informacoes',
-  forcarLog: true
+  versao: pacote.version ? pacote.version : 'sem informacoes'
 };

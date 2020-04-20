@@ -3,47 +3,42 @@ import 'dotenv/config';
 
 class ConsultaFinnet {
   public async criarRegistroRemessa(link_s3, tipo_arquivo) {
-    let resposta;
-
-    let consultaResponse = {
-      status: 200,
-      resposta
-    };
-
-    let consulta: Object;
+    let requisicao: Object;
 
     try {
-      consulta = await axios({
+      requisicao = await axios({
         method: 'POST',
+        headers: {
+          headers_anteriores: JSON.parse(process.env.HEADERS_GLOBAIS).headers
+        },
         url: `${process.env.FINNET_BASE}/finnet/salvar/remessa`,
         data: {
           link_s3,
           tipo_arquivo
         }
       });
+      return {
+        status: requisicao.status,
+        data: requisicao.data
+      };
     } catch (error) {
-      console.log(error);
       if (error.response) {
-        consultaResponse.resposta = error.response.data;
-        consultaResponse.status = error.response.status;
-
-        return consultaResponse;
+        return {
+          status: error.response.status,
+          data: error.response.data
+        };
       }
       if (error.request) {
-        consultaResponse.resposta = '';
-        consultaResponse.status = 400;
-
-        return consultaResponse;
+        return {
+          status: 404,
+          data: error.request
+        };
       }
-      consultaResponse.resposta = '';
-      consultaResponse.status = 500;
-
-      return consultaResponse;
+      return {
+        status: 500,
+        data: error
+      };
     }
-
-    consultaResponse.resposta = consulta.data;
-
-    return consultaResponse;
   }
 }
 

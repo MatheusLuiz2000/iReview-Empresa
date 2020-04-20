@@ -1,8 +1,8 @@
 export default async buscaDadosCliente => {
   const retornoDadosFaltando = new Array();
-  const cliente_dados = buscaDadosCliente.resposta.data.Cliente;
-  const banco_dados = buscaDadosCliente.resposta.data.Banco;
-  const endereco_dados = buscaDadosCliente.resposta.data.Endereco;
+  const cliente_dados = buscaDadosCliente.data;
+  const banco_dados = buscaDadosCliente.data.banco[0];
+  const endereco_dados = buscaDadosCliente.data.enderecos[0];
 
   // Validaçoes do Cliente
   if (cliente_dados === null) {
@@ -43,7 +43,7 @@ export default async buscaDadosCliente => {
       dado: 'Endereço',
       mensagem: 'Preencha o endereço para realizar a transferência'
     });
-  } else if (!endereco_dados.cep_id || endereco_dados.cep_id.numero) {
+  } else if (!endereco_dados.cep || endereco_dados.cep.cep) {
     retornoDadosFaltando.push({
       dado: 'Endereço',
       mensagem: 'Preencha o endereço para realizar a transferência'

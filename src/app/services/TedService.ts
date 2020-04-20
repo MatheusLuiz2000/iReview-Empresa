@@ -2,6 +2,7 @@ import moment_timezone from 'moment-timezone';
 import moment from 'moment';
 import Log from 'log-gcb';
 import { Op } from 'sequelize';
+import Sqs from 'sqs-gcb';
 import geraDadosTed from '../helpers/remessa/geraDadosTed';
 import Cliente_api from '../../api/Cliente';
 import Ted_model from '../models/Ted';
@@ -88,6 +89,16 @@ class TedService {
     const validacoesTed = await validaInformacoesTed(buscaDadosCliente);
 
     if (validacoesTed.status !== 200) {
+      Log.erro(
+        { headers: { nulo: true } },
+        'Erro ao Inserir Solicitação de criação de Ted',
+        {
+          status: validacoesTed.status,
+          dados: validacoesTed.dados,
+          mensagem:
+            'Preencha todos os campos fornecidos para finalizar a transferência'
+        }
+      );
       return {
         status: validacoesTed.status,
         dados: validacoesTed.dados,
@@ -156,25 +167,25 @@ class TedService {
         continue;
       }
 
-      const buscaDadosOperacao = await Notas_api.buscaDadosOperacao(
-        element.operacao_id
-      );
+      // const buscaDadosOperacao = await Notas_api.buscaDadosOperacao(
+      //   element.operacao_id
+      // );
 
-      if (buscaDadosOperacao.status !== 200) {
-        RetornoTedLog.push({
-          operacao_id: element.operacao_id,
-          cliente_id: element.cliente_id,
-          motivo: 'Localizar os dados da operacao',
-          tipo: 'nao-realizada',
-          mensagem: 'Não foi possivel dados da operaca'
-        });
+      // if (buscaDadosOperacao.status !== 200) {
+      //   RetornoTedLog.push({
+      //     operacao_id: element.operacao_id,
+      //     cliente_id: element.cliente_id,
+      //     motivo: 'Localizar os dados da operacao',
+      //     tipo: 'nao-realizada',
+      //     mensagem: 'Não foi possivel dados da operaca'
+      //   });
 
-        continue;
-      }
+      //   continue;
+      // }
 
       if (
         tempoAgora.getHours() > 15 &&
-        buscaDadosCliente.resposta.data.Banco.codigo_banco !== '341'
+        buscaDadosCliente.data.banco.tipo_bancos_id !== '341'
       ) {
         RetornoTedLog.push({
           operacao_id: element.operacao_id,
@@ -210,7 +221,7 @@ class TedService {
       }
 
       const geraDados = await geraDadosTed(
-        buscaDadosCliente.resposta.data,
+        buscaDadosCliente.data,
         contadorLinha
       );
 
@@ -221,11 +232,18 @@ class TedService {
       tedsConfirmadas.push(element.id);
 
       valorTotalPagamentoArquivo += element.valor_transferencia;
+
+      Sqs.object(
+        'https://sqs.sa-east-1.amazonaws.com/544005205437/ted-solicitacao-boleto.fifo',
+        {
+          operacao_id: element.operacao_id
+        }
+      );
     }
 
     if (RetornoTedLog.length > 0) {
       Log.cron(
-        process.env.HEADERS_GLOBAIS,
+        JSON.parse(process.env.HEADERS_GLOBAIS),
         'Informações da CRON de TED',
         RetornoTedLog
       );

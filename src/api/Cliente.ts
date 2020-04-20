@@ -3,42 +3,39 @@ import 'dotenv/config';
 
 class ConsultaCliente {
   public async consulta(id) {
-    let resposta;
-
-    let consultaResponse = {
-      status: 200,
-      resposta
-    };
-
     let consulta: Object;
 
     try {
       consulta = await axios({
         method: 'get',
-        url: `${process.env.CLIENTE_BASE}/${id}`
+        headers: {
+          endereco: true,
+          banco: true
+        },
+        url: `${process.env.CLIENTE_BASE}/cliente/${id}`
       });
+      return {
+        status: consulta.status,
+        data: consulta.data
+      };
     } catch (error) {
       if (error.response) {
-        consultaResponse.resposta = error.response.data;
-        consultaResponse.status = error.response.status;
-
-        return consultaResponse;
+        return {
+          status: error.response.status,
+          data: error.response.data
+        };
       }
       if (error.request) {
-        consultaResponse.resposta = '';
-        consultaResponse.status = 400;
-
-        return consultaResponse;
+        return {
+          status: 404,
+          data: error.request
+        };
       }
-      consultaResponse.resposta = '';
-      consultaResponse.status = 500;
-
-      return consultaResponse;
+      return {
+        status: 500,
+        data: error
+      };
     }
-
-    consultaResponse.resposta = consulta.data;
-
-    return consultaResponse;
   }
 }
 
