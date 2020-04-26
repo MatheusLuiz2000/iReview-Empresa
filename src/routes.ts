@@ -9,6 +9,10 @@ const routes = new Router();
 
 routes.use(headerGlobal);
 
+routes.get('/health', (req, res) => {
+  return res.json({ ok: true });
+});
+
 routes.get('/', TedController.docs); // Rota para a documentação
 routes.get('/historico', TedController.listar); // Rota para a documentação
 routes.get('/:id', TedValidator.buscaTedById, TedController.listarById); // Rota para a documentação
@@ -18,7 +22,7 @@ routes.post('/retorno', TedController.leituraRetornoTed);
 
 routes.get('/consolidada/:id', TedController.listarConsolidada);
 
-routes.get('/health', TedController.health); // Rota para o health check
-routes.get('/testes', TedController.testes); // Rota para o health check
+// routes.get('/health', TedController.health); // Rota para o health check
+// routes.get('/testes', TedController.testes); // Rota para o health check
 
 export default routes;
