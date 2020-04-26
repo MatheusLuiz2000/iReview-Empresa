@@ -9,7 +9,6 @@ WORKDIR /usr/src/adiante_ted
 COPY package.json ./
 RUN npm install 
 COPY . .
-RUN npm run test
 RUN node -v
 EXPOSE 80
 CMD xray-daemon -f /var/log/xray-daemon.log & npm run deploy
