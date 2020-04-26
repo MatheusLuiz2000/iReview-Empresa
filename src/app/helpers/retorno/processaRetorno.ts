@@ -1,10 +1,12 @@
 import rp from 'request-promise';
+import Sqs from 'sqs-gcb';
 import processarHeaderArquivo from './processarHeaderArquivo';
 import processarHeaderLote from './processarHeaderLote';
 import processarDetalhe from './processarDetalhe';
 import processarTrailerLote from './processarTrailerLote';
 import processarTrailerArquivo from './processarTrailerArquivo';
 import retorno_ted from '../../models/Retorno_ted';
+import Ted from '../../models/Ted';
 
 export default async link_s3 => {
   const getIdHeaderArquivo = 0;
@@ -53,6 +55,17 @@ export default async link_s3 => {
       }
 
       if (tipoLinha === getIdDetalhe) {
+        if (arrayDetalhe[0].id_codigo_retorno_ocorrencia === '00') {
+          const ted = await Ted.findByPk(arrayDetalhe[0].ted_id);
+          if (ted) {
+            Sqs.object(
+              'https://sqs.sa-east-1.amazonaws.com/544005205437/ted-solicitacao-boleto.fifo',
+              {
+                operacao_id: ted.operacao_id
+              }
+            );
+          }
+        }
         await retorno_ted.create({
           ted_id: arrayDetalhe[0].ted_id === '' ? null : arrayDetalhe[0].ted_id,
           status_banco:

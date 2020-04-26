@@ -43,7 +43,7 @@ export default async buscaDadosCliente => {
       dado: 'Endereço',
       mensagem: 'Preencha o endereço para realizar a transferência'
     });
-  } else if (!endereco_dados.cep || endereco_dados.cep.cep) {
+  } else if (!endereco_dados.cep || !endereco_dados.cep.cep) {
     retornoDadosFaltando.push({
       dado: 'Endereço',
       mensagem: 'Preencha o endereço para realizar a transferência'

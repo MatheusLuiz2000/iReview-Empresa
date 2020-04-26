@@ -8,9 +8,6 @@ class ConsultaFinnet {
     try {
       requisicao = await axios({
         method: 'POST',
-        headers: {
-          headers_anteriores: JSON.parse(process.env.HEADERS_GLOBAIS).headers
-        },
         url: `${process.env.FINNET_BASE}/finnet/salvar/remessa`,
         data: {
           link_s3,

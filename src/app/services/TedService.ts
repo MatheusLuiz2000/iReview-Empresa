@@ -232,13 +232,6 @@ class TedService {
       tedsConfirmadas.push(element.id);
 
       valorTotalPagamentoArquivo += element.valor_transferencia;
-
-      Sqs.object(
-        'https://sqs.sa-east-1.amazonaws.com/544005205437/ted-solicitacao-boleto.fifo',
-        {
-          operacao_id: element.operacao_id
-        }
-      );
     }
 
     if (RetornoTedLog.length > 0) {

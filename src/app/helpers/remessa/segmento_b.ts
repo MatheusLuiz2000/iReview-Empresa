@@ -4,6 +4,8 @@ import funcoes from '../../util/Funcoes';
 export default async (dados, contadorLinha) => {
   const nossoNumero = moment().format();
 
+  dados.endereco = dados.enderecos[0];
+
   return {
     SEGMENTO_B: {
       CODIGO_BANCO: '341',
@@ -12,14 +14,14 @@ export default async (dados, contadorLinha) => {
       NUMERO_REGISTRO: contadorLinha.toString(),
       SEGMENTO: 'B',
       TIPO_INSCRICAO: '2',
-      CNPJ_FAVORECIDO: dados.Cliente.documento,
-      ENDERECO: dados.Endereco.Cep.logradouro_sem_acento,
-      NUMERO: dados.Endereco.numero,
-      COMPLEMENTO: dados.Endereco.complemento,
-      BAIRRO: dados.Endereco.Cep.Bairro.bairro_sem_acento,
-      CIDADE: dados.Endereco.Cep.Cidade.cidade_sem_acento,
-      CEP: dados.Endereco.Cep.cep,
-      ESTADO: dados.Endereco.Cep.Cidade.estado
+      CNPJ_FAVORECIDO: dados.documento,
+      ENDERECO: dados.endereco.cep.logradouro_sem_acento,
+      NUMERO: dados.endereco.numero,
+      COMPLEMENTO: dados.endereco.complemento,
+      BAIRRO: dados.endereco.cep.bairro.bairro_sem_acento,
+      CIDADE: dados.endereco.cep.cidade.cidade_sem_acento,
+      CEP: dados.endereco.cep.cep,
+      ESTADO: dados.endereco.cep.estado.sigla
     }
   };
 };

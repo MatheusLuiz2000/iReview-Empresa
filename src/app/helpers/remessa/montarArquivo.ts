@@ -199,7 +199,7 @@ export default async (dados, quantidade, soma, ted_confirmadas) => {
   for (let element of ted_confirmadas) {
     await Ted_model.update(
       {
-        remessa_id: criarRemessaFinnet.resposta.data.remessa_id
+        remessa_id: criarRemessaFinnet.data.data.remessa_id
       },
       {
         where: {

@@ -6,7 +6,9 @@ export default async (dados, contadorLinha) => {
   let espaco = '';
   let agencia_conta = '';
 
-  if (dados.Banco.conta_banco === 341) {
+  dados.Banco = dados.banco[0];
+
+  if (dados.Banco.codigo_banco === 341) {
     agencia_conta += espaco.padStart(1, '0');
 
     agencia_conta += dados.Banco.agencia.subString(0, 4).padStart(4, '0');
@@ -46,7 +48,7 @@ export default async (dados, contadorLinha) => {
       BANCO_FAVORECIDO: dados.Banco.codigo_banco,
       AGENCIA_CONTA: agencia_conta,
       NOME_FAVORECIDO: await funcoes.removerCaractersEspeciais(
-        dados.Cliente.razao_social
+        dados.razao_social
       ),
       SEU_NUMERO: '8239',
       DATA_PAGAMENTO: moment().format('DDMMYYYY'),
@@ -55,7 +57,7 @@ export default async (dados, contadorLinha) => {
       NOSSO_NUMERO: '',
       DATA_EFETIVO: '',
       VALOR_EFETIVO: '',
-      CNPJ_FAVORECIDO: dados.Cliente.documento,
+      CNPJ_FAVORECIDO: dados.documento,
       FINALIDADE_TED: '00010'
     }
   };
