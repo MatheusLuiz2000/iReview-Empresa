@@ -14,13 +14,13 @@ phases:
          if expr "${CODEBUILD_WEBHOOK_TRIGGER}" = "branch/develop"; then
            AWS_ACCOUNT=544005205437
            BUCKET_DEPLOY_APP=gcb-dev-deploy-app
-           BUCKET_CONFIGS=adiantesa-dev
+           BUCKET_CONFIGS=gcb-dev
          fi
       - |
          if expr "${CODEBUILD_WEBHOOK_TRIGGER}" = "branch/master"; then
            AWS_ACCOUNT=592204574512
            BUCKET_DEPLOY_APP=gcb-prod-deploy-app
-           BUCKET_CONFIGS=adiantesa-prod
+           BUCKET_CONFIGS=gcb-prod
          fi
       - REPOSITORY_URI=$AWS_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/gcb/$AWS_CONTAINER
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
