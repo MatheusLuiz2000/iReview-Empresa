@@ -236,7 +236,7 @@ class TedService {
 
     if (RetornoTedLog.length > 0) {
       Log.cron(
-        JSON.parse(process.env.HEADERS_GLOBAIS),
+        process.env.HEADERS_GLOBAIS,
         'Informações da CRON de TED',
         RetornoTedLog
       );
