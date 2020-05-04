@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import path from 'path';
 import TedService from '../services/TedService';
 
+import FinnetApi from '../../api/Finnet';
+
 class TedController {
   docs = (req, res) => {
     res.sendFile(path.resolve('./apidoc/index.html'));
@@ -71,10 +73,20 @@ class TedController {
   // Leitura do retorno do ted
   public async leituraRetornoTed(req: Request, res: Response) {
     const { link_s3 } = req.body;
+    let leituras = []
 
-    const leituraTed = await TedService.lerTed(link_s3);
+    const links = await FinnetApi.leituraRetorno()
 
-    return res.status(leituraTed).json();
+    if(links.status === 204) return res.status(200).json({ mensagem: 'Nehum arquivo para processar.' })
+
+    if(links.status !== 200) return res.status(500).json({ mensagem: 'Erro na comunicacao com a Finnet' })
+
+    for(let link of links.data){
+      let retorno = await TedService.lerTed(link.link_s3)
+      leituras.push(retorno);
+    }
+
+    return res.status(200).json(leituras);
   }
 }
 
