@@ -54,7 +54,9 @@ export default async (dados, dadosTed, contadorLinha) => {
       SEU_NUMERO: usoEmpresa,
       DATA_PAGAMENTO: moment().format('DDMMYYYY'),
       TIPO_MOEDA: '009',
-      VALOR_PAGAMENTO: dadosTed.valor_transferencia,
+      VALOR_PAGAMENTO: parseFloat(dadosTed.valor_transferencia)
+        .toFixed(2)
+        .replace(/\D/gm, ''),
       NOSSO_NUMERO: '',
       DATA_EFETIVO: '',
       VALOR_EFETIVO: '',
