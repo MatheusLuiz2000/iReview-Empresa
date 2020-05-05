@@ -165,7 +165,7 @@ export default async (dados, quantidade, soma, ted_confirmadas) => {
 
   arquivoFinal += quebra_linha;
 
-  const salvaS3 = await salvarS3.salvarS3(arquivoFinal, 'aa');
+  const salvaS3 = await salvarS3.salvarS3(arquivoFinal);
 
   if (salvaS3.error) {
     Log.erro(

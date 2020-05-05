@@ -4,9 +4,10 @@ import ted from '../models/Ted';
 
 const s3 = new S3({
   apiVersion: '2006-03-01',
-  accessKeyId: 'AKIAUQBZ2ECKT55I6NTB',
-  secretAccessKey: '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'
+  accessKeyId: process.env.ACCESSKEYID,
+  secretAccessKey: process.env.SECRETACCESSKEY
 });
+
 class Funcoes {
   public async removerCaractersEspeciais(string) {
     let formatado;
@@ -18,12 +19,10 @@ class Funcoes {
     } catch (error) {}
   }
 
-  public async salvarS3(conteudo, nome_arquivo) {
-    nome_arquivo = nome_arquivo.split('.');
-
+  public async salvarS3(conteudo) {
     const params = {
-      Bucket: 'adiantesa',
-      Key: `teste/${new Date().getFullYear()}/${new Date().getUTCMonth() +
+      Bucket: process.env.BUCKET,
+      Key: `uploads/remessa/deposito/${new Date().getFullYear()}/${new Date().getUTCMonth() +
         1}/REMESSA_${Date.now()}.REM`,
       Body: conteudo
     };
