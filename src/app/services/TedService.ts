@@ -155,6 +155,7 @@ class TedService {
     for (let element of InformacoesTed) {
       const buscaDadosCliente = await Cliente_api.consulta(element.cliente_id);
 
+      console.log(buscaDadosCliente);
       if (buscaDadosCliente.status !== 200) {
         RetornoTedLog.push({
           operacao_id: element.operacao_id,
@@ -222,6 +223,7 @@ class TedService {
 
       const geraDados = await geraDadosTed(
         buscaDadosCliente.data,
+        element,
         contadorLinha
       );
 
