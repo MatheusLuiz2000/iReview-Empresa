@@ -73,16 +73,22 @@ class TedController {
   // Leitura do retorno do ted
   public async leituraRetornoTed(req: Request, res: Response) {
     const { link_s3 } = req.body;
-    let leituras = []
+    let leituras = [];
 
-    const links = await FinnetApi.leituraRetorno()
+    const links = await FinnetApi.leituraRetorno();
 
-    if(links.status === 204) return res.status(200).json({ mensagem: 'Nehum arquivo para processar.' })
+    if (links.status === 204)
+      return res
+        .status(200)
+        .json({ mensagem: 'Nehum arquivo para processar.' });
 
-    if(links.status !== 200) return res.status(500).json({ mensagem: 'Erro na comunicacao com a Finnet' })
+    if (links.status !== 200)
+      return res
+        .status(500)
+        .json({ mensagem: 'Erro na comunicacao com a Finnet' });
 
-    for(let link of links.data){
-      let retorno = await TedService.lerTed(link.link_s3)
+    for (let link of links.data) {
+      let retorno = await TedService.lerTed(link.link_s3);
       leituras.push(retorno);
     }
 

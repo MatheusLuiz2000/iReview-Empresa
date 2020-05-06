@@ -21,6 +21,8 @@ export default async link_s3 => {
   const arrayTrailerLote = new Array();
   const arrayTrailerArquivo = new Array();
 
+  let contagem = 0;
+
   try {
     const conteudoLinhas = await rp(link_s3);
 
@@ -55,8 +57,8 @@ export default async link_s3 => {
       }
 
       if (tipoLinha === getIdDetalhe) {
-        if (arrayDetalhe[0].id_codigo_retorno_ocorrencia === '00') {
-          const ted = await Ted.findByPk(arrayDetalhe[0].ted_id);
+        if (arrayDetalhe[contagem].id_codigo_retorno_ocorrencia === '00') {
+          const ted = await Ted.findByPk(arrayDetalhe[contagem].ted_id);
           if (ted) {
             Sqs.object(
               'https://sqs.sa-east-1.amazonaws.com/544005205437/ted-solicitacao-boleto.fifo',
@@ -66,14 +68,19 @@ export default async link_s3 => {
             );
           }
         }
+
         await retorno_ted.create({
-          ted_id: arrayDetalhe[0].ted_id === '' ? null : arrayDetalhe[0].ted_id,
-          status_banco:
-            arrayDetalhe[0].id_codigo_retorno_ocorrencia === ''
+          ted_id:
+            arrayDetalhe[contagem].ted_id === ''
               ? null
-              : arrayDetalhe[0].id_codigo_retorno_ocorrencia,
-          json_retorno: arrayDetalhe[0]
+              : arrayDetalhe[contagem].ted_id,
+          status_banco:
+            arrayDetalhe[contagem].id_codigo_retorno_ocorrencia === ''
+              ? null
+              : arrayDetalhe[contagem].id_codigo_retorno_ocorrencia,
+          json_retorno: arrayDetalhe[contagem]
         });
+        contagem += 1;
       }
     }
 
