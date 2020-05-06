@@ -2,7 +2,7 @@ import axios from 'axios';
 import 'dotenv/config';
 
 class ConsultaCliente {
-  public async consulta(id) {
+  public async consulta(id, status = true) {
     let consulta: Object;
 
     try {
@@ -10,7 +10,7 @@ class ConsultaCliente {
         method: 'get',
         headers: {
           endereco: true,
-          banco: true
+          banco: status
         },
         url: `${process.env.CLIENTE_BASE}/${id}`
       });

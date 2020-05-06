@@ -1,9 +1,7 @@
 import moment from 'moment';
-import uniqid from 'uniqid';
 import funcoes from '../../util/Funcoes';
 
 export default async (dados, dadosTed, contadorLinha) => {
-  const usoEmpresa = uniqid();
   let espaco = '';
   let agencia_conta = '';
 
@@ -51,7 +49,7 @@ export default async (dados, dadosTed, contadorLinha) => {
       NOME_FAVORECIDO: await funcoes.removerCaractersEspeciais(
         dados.razao_social
       ),
-      SEU_NUMERO: usoEmpresa,
+      SEU_NUMERO: dadosTed.identificacao,
       DATA_PAGAMENTO: moment().format('DDMMYYYY'),
       TIPO_MOEDA: '009',
       VALOR_PAGAMENTO: parseFloat(dadosTed.valor_transferencia)

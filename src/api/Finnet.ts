@@ -44,7 +44,7 @@ class ConsultaFinnet {
     try {
       requisicao = await axios({
         method: 'get',
-        url: `${process.env.FINNET_BASE}/finnet/remessa/deposito`,
+        url: `${process.env.FINNET_BASE}/finnet/remessa/deposito`
       });
       return {
         status: requisicao.status,
