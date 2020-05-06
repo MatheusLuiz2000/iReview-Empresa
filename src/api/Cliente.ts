@@ -14,6 +14,7 @@ class ConsultaCliente {
         },
         url: `${process.env.CLIENTE_BASE}/${id}`
       });
+
       return {
         status: consulta.status,
         data: consulta.data

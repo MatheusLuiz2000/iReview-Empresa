@@ -150,11 +150,12 @@ class TedService {
 
     let contadorTeds = 1;
     let contadorLinha = 1;
-    let valorTotalPagamentoArquivo;
+    let valorTotalPagamentoArquivo = 0;
 
     for (let element of InformacoesTed) {
       const buscaDadosCliente = await Cliente_api.consulta(element.cliente_id);
 
+      console.log(buscaDadosCliente);
       if (buscaDadosCliente.status !== 200) {
         RetornoTedLog.push({
           operacao_id: element.operacao_id,
@@ -183,20 +184,20 @@ class TedService {
       //   continue;
       // }
 
-      if (
-        tempoAgora.getHours() > 15 &&
-        buscaDadosCliente.data.banco.tipo_bancos_id !== '341'
-      ) {
-        RetornoTedLog.push({
-          operacao_id: element.operacao_id,
-          cliente_id: element.cliente_id,
-          motivo: 'Ted deve ser efetuada manualmente',
-          tipo: 'nao-realizada',
-          mensagem: 'Ted deve ser efetuada manualmente'
-        });
+      // if (
+      //   tempoAgora.getHours() > 15 &&
+      //   buscaDadosCliente.data.banco.tipo_bancos_id !== '341'
+      // ) {
+      //   RetornoTedLog.push({
+      //     operacao_id: element.operacao_id,
+      //     cliente_id: element.cliente_id,
+      //     motivo: 'Ted deve ser efetuada manualmente',
+      //     tipo: 'nao-realizada',
+      //     mensagem: 'Ted deve ser efetuada manualmente'
+      //   });
 
-        continue;
-      }
+      //   continue;
+      // }
 
       const validacoesTed = await validaInformacoesTed(buscaDadosCliente);
 
@@ -222,6 +223,7 @@ class TedService {
 
       const geraDados = await geraDadosTed(
         buscaDadosCliente.data,
+        element,
         contadorLinha
       );
 
@@ -231,7 +233,7 @@ class TedService {
 
       tedsConfirmadas.push(element.id);
 
-      valorTotalPagamentoArquivo += element.valor_transferencia;
+      valorTotalPagamentoArquivo += parseFloat(element.valor_transferencia);
     }
 
     if (RetornoTedLog.length > 0) {
