@@ -21,7 +21,7 @@ class Funcoes {
 
   public async salvarS3(conteudo) {
     const params = {
-      Bucket: 'adiantesa',
+      Bucket: process.env.BUCKET,
       Key: `uploads/remessa/deposito/${new Date().getFullYear()}/${new Date().getUTCMonth() +
         1}/REMESSA16860_${Date.now()}.REM`,
       Body: conteudo
