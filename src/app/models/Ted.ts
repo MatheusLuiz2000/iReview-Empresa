@@ -8,6 +8,11 @@ class Ted extends Model {
       {
         cliente_id: Sequelize.INTEGER,
         operacao_id: Sequelize.INTEGER,
+        codigo_banco: Sequelize.STRING(10),
+        agencia: Sequelize.STRING(10),
+        conta: Sequelize.STRING(10),
+        digito: Sequelize.STRING(10),
+        tipo_conta: Sequelize.INTEGER,
         valor_transferencia: Sequelize.DECIMAL(18, 3),
         identificacao: Sequelize.STRING(20),
         remessa_id: Sequelize.INTEGER,

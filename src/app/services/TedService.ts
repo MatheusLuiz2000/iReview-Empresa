@@ -3,6 +3,7 @@ import moment from 'moment';
 import Log from 'log-gcb';
 import { Op } from 'sequelize';
 import Sqs from 'sqs-gcb';
+import uniqid from 'uniqid';
 import geraDadosTed from '../helpers/remessa/geraDadosTed';
 import Cliente_api from '../../api/Cliente';
 import Ted_model from '../models/Ted';
@@ -107,10 +108,18 @@ class TedService {
       };
     }
 
+    const usoEmpresa = uniqid();
+
     await Ted_model.create({
       cliente_id,
       operacao_id,
-      valor_transferencia
+      valor_transferencia,
+      identificacao: usoEmpresa,
+      codigo_banco: buscaDadosCliente.data.banco[0].codigo_banco,
+      agencia: buscaDadosCliente.data.banco[0].agencia,
+      conta: buscaDadosCliente.data.banco[0].conta,
+      digito: buscaDadosCliente.data.banco[0].digito,
+      tipo_conta: buscaDadosCliente.data.banco[0].tipo_conta
     });
 
     return {
@@ -126,6 +135,9 @@ class TedService {
       where: {
         remessa_id: {
           [Op.eq]: null
+        },
+        desativado_em: {
+          [Op.ne]: null
         }
       }
     });
@@ -153,9 +165,11 @@ class TedService {
     let valorTotalPagamentoArquivo = 0;
 
     for (let element of InformacoesTed) {
-      const buscaDadosCliente = await Cliente_api.consulta(element.cliente_id);
+      const buscaDadosCliente = await Cliente_api.consulta(
+        element.cliente_id,
+        false
+      );
 
-      console.log(buscaDadosCliente);
       if (buscaDadosCliente.status !== 200) {
         RetornoTedLog.push({
           operacao_id: element.operacao_id,
@@ -168,21 +182,15 @@ class TedService {
         continue;
       }
 
-      // const buscaDadosOperacao = await Notas_api.buscaDadosOperacao(
-      //   element.operacao_id
-      // );
-
-      // if (buscaDadosOperacao.status !== 200) {
-      //   RetornoTedLog.push({
-      //     operacao_id: element.operacao_id,
-      //     cliente_id: element.cliente_id,
-      //     motivo: 'Localizar os dados da operacao',
-      //     tipo: 'nao-realizada',
-      //     mensagem: 'Não foi possivel dados da operaca'
-      //   });
-
-      //   continue;
-      // }
+      buscaDadosCliente.data.banco = [
+        {
+          codigo_banco: element.codigo_banco,
+          agencia: element.dataValues.agencia,
+          conta: element.dataValues.conta,
+          digito: element.dataValues.digito,
+          tipo_conta: element.dataValues.digito
+        }
+      ];
 
       // if (
       //   tempoAgora.getHours() > 15 &&
@@ -220,6 +228,17 @@ class TedService {
 
         continue;
       }
+
+      const objFinal = {
+        cliente: buscaDadosCliente.data
+      };
+
+      Ted_model.update({
+        json_dados: objFinal,
+        where: {
+          id: element.id
+        }
+      });
 
       const geraDados = await geraDadosTed(
         buscaDadosCliente.data,

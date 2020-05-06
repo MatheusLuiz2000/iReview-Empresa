@@ -80,7 +80,7 @@ class TedController {
     if (links.status === 204)
       return res
         .status(200)
-        .json({ mensagem: 'Nehum arquivo para processar.' });
+        .json({ mensagem: 'Nenhum arquivo para processar.' });
 
     if (links.status !== 200)
       return res
