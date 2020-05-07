@@ -24,12 +24,15 @@ class Sqs {
 
       // Dispara uma ação quando uma mensagem é retornada.
       handleMessage: async message => {
+        console.log('ok');
+        return true;
         const body = JSON.parse(message.Body);
         const solicitacao = await TedService.criarTed(
           body.cliente_id,
           body.operacao_id,
           body.valor_transferencia
         );
+        console.log('status: ', solicitacao.status);
         if (solicitacao.status !== 200) {
           Log.erro(
             { headers: { nulo: true } },

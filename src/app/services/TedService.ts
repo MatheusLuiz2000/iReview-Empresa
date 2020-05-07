@@ -137,7 +137,7 @@ class TedService {
           [Op.eq]: null
         },
         desativado_em: {
-          [Op.ne]: null
+          [Op.eq]: null
         }
       }
     });
