@@ -229,12 +229,16 @@ class TedService {
         cliente: buscaDadosCliente.data
       };
 
-      Ted_model.update({
-        json_dados: objFinal,
-        where: {
-          id: element.id
+      Ted_model.update(
+        {
+          json_dados: objFinal
+        },
+        {
+          where: {
+            id: element.id
+          }
         }
-      });
+      );
 
       const geraDados = await geraDadosTed(
         buscaDadosCliente.data,
