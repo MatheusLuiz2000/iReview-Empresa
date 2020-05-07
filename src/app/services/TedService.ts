@@ -133,12 +133,8 @@ class TedService {
 
     let InformacoesTed = await Ted_model.findAll({
       where: {
-        remessa_id: {
-          [Op.eq]: null
-        },
-        desativado_em: {
-          [Op.eq]: null
-        }
+        remessa_id: null,
+        desativado_em: null
       }
     });
 
