@@ -1,11 +1,34 @@
 import moment from 'moment';
 import funcoes from '../../util/Funcoes';
+import proximoDiaUtil from '../../util/proximoDiaUtil';
 
 export default async (dados, dadosTed, contadorLinha) => {
   let espaco = '';
   let agencia_conta = '';
 
   dados.Banco = dados.banco[0];
+
+  const data_pagamento = await proximoDiaUtil(
+    limiteDeHorario(dados.Banco.codigo_banco)
+  );
+
+  function limiteDeHorario(codigo_banco) {
+    const horaAtual = new Date().getHours();
+
+    if (horaAtual > 18) {
+      return moment().add(1, 'd');
+    }
+
+    if (horaAtual > 15 && horaAtual < 18 && codigo_banco == 341) {
+      return moment();
+    }
+
+    if (horaAtual < 15) {
+      return moment();
+    }
+
+    return moment().add(1, 'd');
+  }
 
   if (dados.Banco.codigo_banco === 341) {
     agencia_conta += espaco.padStart(1, '0');
@@ -50,7 +73,7 @@ export default async (dados, dadosTed, contadorLinha) => {
         dados.razao_social
       ),
       SEU_NUMERO: dadosTed.identificacao,
-      DATA_PAGAMENTO: moment().format('DDMMYYYY'),
+      DATA_PAGAMENTO: data_pagamento,
       TIPO_MOEDA: '009',
       VALOR_PAGAMENTO: parseFloat(dadosTed.valor_transferencia)
         .toFixed(2)
