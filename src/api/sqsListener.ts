@@ -45,20 +45,41 @@ class Sqs {
     });
 
     app.on('error', async err => {
+      Log.erro(
+        { headers: { nulo: true } },
+        'Erro ao Inserir Solicitação de criação de Ted',
+        {
+          detalhes: err
+        }
+      );
       app.stop();
-      await sleep(1800000);
+      await sleep(60000);
       app.start();
     });
 
     app.on('processing_error', async err => {
+      Log.erro(
+        { headers: { nulo: true } },
+        'Erro ao Inserir Solicitação de criação de Ted',
+        {
+          detalhes: err
+        }
+      );
       app.stop();
-      await sleep(1800000);
+      await sleep(60000);
       app.start();
     });
 
     app.on('timeout_error', async err => {
+      Log.erro(
+        { headers: { nulo: true } },
+        'Erro ao Inserir Solicitação de criação de Ted',
+        {
+          detalhes: err
+        }
+      );
       app.stop();
-      await sleep(1800000);
+      await sleep(60000);
       app.start();
     });
 
