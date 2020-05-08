@@ -3,7 +3,7 @@ import moment from 'moment';
 export default async banco => {
   let forma_pagamento;
 
-  if (banco === '341') {
+  if (banco === 'itau') {
     forma_pagamento = '01';
   } else {
     forma_pagamento = '41';
