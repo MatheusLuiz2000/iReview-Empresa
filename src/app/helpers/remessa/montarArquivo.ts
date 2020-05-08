@@ -6,8 +6,8 @@ import salvarS3 from '../../util/Funcoes';
 import Ted_model from '../../models/Ted';
 import Finnet from '../../../api/Finnet';
 
-export default async (dados, quantidade, soma, ted_confirmadas) => {
-  const headerDados = await header();
+export default async (banco, dados, quantidade, soma, ted_confirmadas) => {
+  const headerDados = await header(banco);
 
   const trailer_lote_dados = await trailer_registro(quantidade, soma);
 

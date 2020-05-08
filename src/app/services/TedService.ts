@@ -128,15 +128,30 @@ class TedService {
     };
   }
 
-  public async gerarTed() {
+  public async gerarTed(banco) {
     moment_timezone().tz('America/Fortaleza');
 
-    let InformacoesTed = await Ted_model.findAll({
-      where: {
-        remessa_id: null,
-        desativado_em: null
-      }
-    });
+    let InformacoesTed;
+
+    if (banco === 'itau') {
+      InformacoesTed = await Ted_model.findAll({
+        where: {
+          remessa_id: null,
+          codigo_banco: '341',
+          desativado_em: null
+        }
+      });
+    }
+
+    if (banco === 'outros') {
+      InformacoesTed = await Ted_model.findAll({
+        where: {
+          [Op.not]: { codigo_banco: '341' },
+          remessa_id: null,
+          desativado_em: null
+        }
+      });
+    }
 
     if (InformacoesTed.length <= 0) {
       Log.alerta(
@@ -266,6 +281,7 @@ class TedService {
     // Montar o arquivo;
     if (DadosTeds.length > 0) {
       await montarArquivo(
+        banco,
         DadosTeds,
         contadorTeds,
         valorTotalPagamentoArquivo,

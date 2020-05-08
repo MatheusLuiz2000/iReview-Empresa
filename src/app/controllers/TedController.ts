@@ -67,7 +67,19 @@ class TedController {
 
   // Geracao do arquivo de TED
   public async gerarTed(req: Request, res: Response) {
-    const gerarTed = await TedService.gerarTed();
+    const { banco } = req.headers;
+
+    if (!banco)
+      return res
+        .status(400)
+        .json({ mensagem: 'É nescessário enviar o Banco nos headers' });
+
+    if (banco !== 'itau' && banco !== 'outros')
+      return res
+        .status(400)
+        .json({ mensagem: 'O banco deve ser itau ou outros' });
+
+    const gerarTed = await TedService.gerarTed(banco);
     return res.status(gerarTed.status).json({
       data: gerarTed.dados
     });
