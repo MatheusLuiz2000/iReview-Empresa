@@ -13,21 +13,30 @@ export default async (dados, dadosTed, contadorLinha) => {
   );
 
   function limiteDeHorario(codigo_banco) {
-    const horaAtual = new Date().getHours();
+    let horaAtual = new Date().getHours();
+
+    horaAtual -= 3;
+
+    console.log(horaAtual);
+    console.log(moment().utcOffset(-3));
 
     if (horaAtual > 18) {
-      return moment().add(1, 'd');
+      return moment()
+        .utcOffset(-3)
+        .add(1, 'd');
     }
 
     if (horaAtual > 15 && horaAtual < 18 && codigo_banco == 341) {
-      return moment();
+      return moment().utcOffset(-3);
     }
 
     if (horaAtual < 15) {
-      return moment();
+      return moment().utcOffset(-3);
     }
 
-    return moment().add(1, 'd');
+    return moment()
+      .utcOffset(-3)
+      .add(1, 'd');
   }
 
   if (dados.Banco.codigo_banco === 341) {
