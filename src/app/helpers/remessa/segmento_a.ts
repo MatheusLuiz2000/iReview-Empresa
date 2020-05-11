@@ -17,9 +17,6 @@ export default async (dados, dadosTed, contadorLinha) => {
 
     horaAtual -= 3;
 
-    console.log(horaAtual);
-    console.log(moment().utcOffset(-3));
-
     if (horaAtual > 18) {
       return moment()
         .utcOffset(-3)

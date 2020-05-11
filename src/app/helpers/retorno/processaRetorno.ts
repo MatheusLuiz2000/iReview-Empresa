@@ -1,5 +1,6 @@
 import rp from 'request-promise';
 import Sqs from 'sqs-gcb';
+import Log from 'log-gcb';
 import processarHeaderArquivo from './processarHeaderArquivo';
 import processarHeaderLote from './processarHeaderLote';
 import processarDetalhe from './processarDetalhe';
@@ -86,6 +87,9 @@ export default async link_s3 => {
 
     return 200;
   } catch (error) {
+    Log.erro({ headers: { nulo: true } }, 'Erro ao Fazer leitura do retorno', {
+      erro: error.stack
+    });
     return 400;
   }
 };
