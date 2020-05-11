@@ -59,8 +59,11 @@ export default async link_s3 => {
 
       if (tipoLinha === getIdDetalhe) {
         if (arrayDetalhe[contagem].id_codigo_retorno_ocorrencia === '00') {
-          const ted = await Ted.findByPk(arrayDetalhe[contagem].ted_id);
+          const ted = await Ted.findOne({
+            where: { identificacao: arrayDetalhe[contagem].ted_id }
+          });
           if (ted) {
+            console.log('enviado');
             Sqs.object(
               'https://sqs.sa-east-1.amazonaws.com/544005205437/ted-solicitacao-boleto.fifo',
               {
