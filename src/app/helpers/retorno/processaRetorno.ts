@@ -60,7 +60,7 @@ export default async link_s3 => {
       if (tipoLinha === getIdDetalhe) {
         if (arrayDetalhe[contagem].id_codigo_retorno_ocorrencia === '00') {
           const ted = await Ted.findOne({
-            where: { identificacao: arrayDetalhe[contagem].ted_id }
+            where: { identificacao: arrayDetalhe[contagem].uso_empresa }
           });
           if (ted) {
             console.log('enviado');
