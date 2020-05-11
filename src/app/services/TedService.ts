@@ -74,6 +74,16 @@ class TedService {
     };
   }
 
+  public async listarDadosBancarios(id) {
+    const ted = await Ted_model.findOne({
+      where: { cliente_id: id }
+    });
+
+    if (!ted) return { status: 204 };
+
+    return { status: 200, data: ted };
+  }
+
   public async criarTed(cliente_id, operacao_id, valor_transferencia) {
     valor_transferencia = parseFloat(valor_transferencia);
 

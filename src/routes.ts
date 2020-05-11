@@ -24,6 +24,7 @@ routes.post('/gerar', TedController.gerarTed);
 routes.post('/retorno', TedController.leituraRetornoTed);
 
 routes.get('/consolidada/:id', TedController.listarConsolidada);
+routes.get('/dados/bancarios/:id', TedController.listarDadosBancarios);
 
 // routes.get('/health', TedController.health); // Rota para o health check
 // routes.get('/testes', TedController.testes); // Rota para o health check
