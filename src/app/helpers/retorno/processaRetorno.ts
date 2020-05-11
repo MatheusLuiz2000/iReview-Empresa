@@ -1,5 +1,6 @@
 import rp from 'request-promise';
 import Sqs from 'sqs-gcb';
+import Log from 'log-gcb';
 import processarHeaderArquivo from './processarHeaderArquivo';
 import processarHeaderLote from './processarHeaderLote';
 import processarDetalhe from './processarDetalhe';
@@ -57,9 +58,12 @@ export default async link_s3 => {
       }
 
       if (tipoLinha === getIdDetalhe) {
-        if (arrayDetalhe[contagem].id_codigo_retorno_ocorrencia === '00') {
-          const ted = await Ted.findByPk(arrayDetalhe[contagem].ted_id);
+        if (arrayDetalhe[contagem].id_codigo_retorno_ocorrencia === 1) {
+          const ted = await Ted.findOne({
+            where: { identificacao: arrayDetalhe[contagem].uso_empresa }
+          });
           if (ted) {
+            console.log('enviado');
             Sqs.object(
               'https://sqs.sa-east-1.amazonaws.com/544005205437/ted-solicitacao-boleto.fifo',
               {
@@ -86,6 +90,9 @@ export default async link_s3 => {
 
     return 200;
   } catch (error) {
+    Log.erro({ headers: { nulo: true } }, 'Erro ao Fazer leitura do retorno', {
+      erro: error.stack
+    });
     return 400;
   }
 };
