@@ -47,6 +47,14 @@ class TedController {
     return res.status(status).json(data);
   }
 
+  public async listarDadosBancarios(req, res) {
+    const { id } = req.params;
+
+    const { status, data } = await TedService.listarDadosBancarios(id);
+
+    return res.status(status).json(data);
+  }
+
   // Criacao do registro de Ted
   public async criarTed(req: Request, res: Response) {
     const { cliente_id, operacao_id, valor_transferencia } = req.body;
