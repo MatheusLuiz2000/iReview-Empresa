@@ -1,6 +1,7 @@
 import rp from 'request-promise';
 import Sqs from 'sqs-gcb';
 import Log from 'log-gcb';
+import getS3File from '../../util/getS3File';
 import processarHeaderArquivo from './processarHeaderArquivo';
 import processarHeaderLote from './processarHeaderLote';
 import processarDetalhe from './processarDetalhe';
@@ -25,9 +26,9 @@ export default async link_s3 => {
   let contagem = 0;
 
   try {
-    const conteudoLinhas = await rp(link_s3);
+    const conteudoLinhas = await getS3File(link_s3);
 
-    if (!conteudoLinhas) {
+    if (conteudoLinhas === 'erro') {
       return 0;
     }
 

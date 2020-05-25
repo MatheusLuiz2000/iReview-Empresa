@@ -69,6 +69,41 @@ class ConsultaFinnet {
       };
     }
   }
+
+  public async confirmarProcessamento(links, tipo) {
+    let requisicao: Object;
+
+    try {
+      requisicao = await axios({
+        method: 'post',
+        url: `${process.env.FINNET_BASE}'/finnet/remessa/processamento/confirmar/${tipo}`,
+        data: {
+          links
+        }
+      });
+      return {
+        status: requisicao.status,
+        data: requisicao.data
+      };
+    } catch (error) {
+      if (error.response) {
+        return {
+          status: error.response.status,
+          data: error.response.data
+        };
+      }
+      if (error.request) {
+        return {
+          status: 404,
+          data: error.request
+        };
+      }
+      return {
+        status: 500,
+        data: error
+      };
+    }
+  }
 }
 
 export default new ConsultaFinnet();

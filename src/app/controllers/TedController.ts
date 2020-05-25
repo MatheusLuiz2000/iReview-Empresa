@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import moment from 'moment';
+import Log from 'log-gcb';
 import TedService from '../services/TedService';
 
 import proximoDiaUtil from '../util/proximoDiaUtil';
@@ -97,6 +98,7 @@ class TedController {
   public async leituraRetornoTed(req: Request, res: Response) {
     const { link_s3 } = req.body;
     let leituras = [];
+    let array_links = [];
 
     const links = await FinnetApi.leituraRetorno();
 
@@ -113,6 +115,22 @@ class TedController {
     for (let link of links.data) {
       let retorno = await TedService.lerTed(link.link_s3);
       leituras.push(retorno);
+      array_links.push(link.link_s3);
+    }
+
+    const confirmaProcesamento = await FinnetApi.confirmarProcessamento(
+      array_links,
+      'deposito'
+    );
+
+    if (confirmaProcesamento.status !== 200) {
+      Log.erro(
+        process.env.HEADERS_GLOBAIS,
+        'Erro na comunicacao com a Finnet (confirmacao de processmento)',
+        {
+          confirmaProcesamento
+        }
+      );
     }
 
     return res.status(200).json(leituras);
