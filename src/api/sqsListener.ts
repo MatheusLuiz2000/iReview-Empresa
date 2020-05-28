@@ -25,7 +25,9 @@ class Sqs {
       // Dispara uma ação quando uma mensagem é retornada.
       handleMessage: async message => {
         // console.log('entrou');
-        // await sleep(2000);
+
+        // console.log(JSON.parse(message.Body));
+        // await sleep(5000);
         // console.log('apagou');
         // return;
 

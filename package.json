@@ -1,6 +1,6 @@
 {
   "name": "service-pattern",
-  "version": "1.0.45-0",
+  "version": "1.0.46-0",
   "description": "",
   "main": "server.js",
   "husky": {
@@ -44,6 +44,7 @@
     "mockery": "^2.1.0",
     "moment": "2.24.0",
     "moment-timezone": "^0.5.28",
+    "mysql2": "^2.1.0",
     "passport": "^0.4.1",
     "passport-http-bearer": "^1.0.1",
     "pg": "^7.17.0",

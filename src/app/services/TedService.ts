@@ -93,7 +93,8 @@ class TedService {
       return {
         status: 400,
         mensagem:
-          'Não foi possível recuperar os dados do Cliente. Tente novamente!'
+          'Não foi possível recuperar os dados do Cliente. Tente novamente!',
+        erro: buscaDadosCliente
       };
     }
 
