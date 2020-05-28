@@ -5,6 +5,8 @@ import moment from 'moment';
 export default async function(data) {
   let controle = false;
 
+  console.log('hora que chegou na funcao: ', data);
+
   while (!controle) {
     controle = await diaUtil(data);
 

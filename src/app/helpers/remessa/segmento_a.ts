@@ -15,7 +15,11 @@ export default async (dados, dadosTed, contadorLinha) => {
   function limiteDeHorario(codigo_banco) {
     let horaAtual = new Date().getHours();
 
+    console.log('depois subtracao: ', horaAtual);
+
     horaAtual -= 3;
+
+    console.log('depois subtracao: ', horaAtual);
 
     if (horaAtual > 18) {
       return moment()
