@@ -90,6 +90,11 @@ class TedService {
     const buscaDadosCliente = await Cliente_api.consulta(cliente_id);
 
     if (buscaDadosCliente.status !== 200) {
+      Log.erro(
+        { headers: { nulo: true } },
+        'Erro ao Inserir Solicitação de criação de Ted - Erro ao solicitar dados do cliente',
+        buscaDadosCliente
+      );
       return {
         status: 400,
         mensagem:
