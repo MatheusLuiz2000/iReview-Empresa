@@ -313,6 +313,31 @@ class TedService {
     const processarRetorno = await processaRetorno(link_s3);
     return processarRetorno;
   }
+
+  public async cancelaTed(operacao_id) {
+    const registro_ted = await Ted_model.findOne({
+      where: { operacao_id }
+    });
+
+    if (!registro_ted)
+      return { status: 400, data: { mensagem: 'Operação não encontrada' } };
+
+    if (registro_ted.remessa_id !== null) {
+      return {
+        status: 409,
+        data: { mensagem: 'Não é possível cancelar a Operação.' }
+      };
+    }
+
+    await registro_ted.update({
+      desativado_em: new Date()
+    });
+
+    return {
+      status: 200,
+      data: { mensagem: 'Operação cancelada com sucesso!' }
+    };
+  }
 }
 
 export default new TedService();

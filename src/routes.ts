@@ -23,6 +23,8 @@ routes.post('/cadastrar/', TedValidator.criaTed, TedController.criarTed);
 routes.post('/gerar', TedController.gerarTed);
 routes.post('/retorno', TedController.leituraRetornoTed);
 
+routes.patch('/cancelar/:operacao_id', TedController.cancelaTed);
+
 routes.get('/consolidada/:id', TedController.listarConsolidada);
 routes.get('/dados/bancarios/:id', TedController.listarDadosBancarios);
 

@@ -135,6 +135,14 @@ class TedController {
 
     return res.status(200).json(leituras);
   }
+
+  public async cancelaTed(req: Request, res: Response) {
+    const { operacao_id } = req.params;
+
+    const { status, data } = await TedService.cancelaTed(operacao_id);
+
+    return res.status(status).json(data);
+  }
 }
 
 export default new TedController();
