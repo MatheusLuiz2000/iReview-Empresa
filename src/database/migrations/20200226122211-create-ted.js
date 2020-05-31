@@ -29,7 +29,7 @@ module.exports = {
         allowNull: true
       },
       json_dados: {
-        type: Sequelize.JSON,
+        type: Sequelize.TEXT,
         allowNull: true
       },
       criado_em: {

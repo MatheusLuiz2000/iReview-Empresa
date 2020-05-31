@@ -16,7 +16,15 @@ class Ted extends Model {
         valor_transferencia: Sequelize.DECIMAL(18, 3),
         identificacao: Sequelize.STRING(20),
         remessa_id: Sequelize.INTEGER,
-        json_dados: Sequelize.JSON
+        json_dados: {
+          type: Sequelize.TEXT,
+          get() {
+            return JSON.parse(this.getDataValue('value'));
+          },
+          set(value) {
+            this.setDataValue('value', JSON.stringify(value));
+          }
+        }
       },
       {
         sequelize,

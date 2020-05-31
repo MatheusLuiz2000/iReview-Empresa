@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('tb_pendencias_ted', {
@@ -23,7 +22,7 @@ module.exports = {
         allowNull: false
       },
       pendencias: {
-        type: Sequelize.JSON,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       criado_em: {

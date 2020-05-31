@@ -8,7 +8,15 @@ class Pendencia_ted extends Model {
       {
         ted_id: Sequelize.INTEGER,
         cliente_id: Sequelize.INTEGER,
-        pendencias: Sequelize.JSON
+        pendencias: {
+          type: Sequelize.TEXT,
+          get() {
+            return JSON.parse(this.getDataValue('value'));
+          },
+          set(value) {
+            this.setDataValue('value', JSON.stringify(value));
+          }
+        }
       },
       {
         sequelize,
