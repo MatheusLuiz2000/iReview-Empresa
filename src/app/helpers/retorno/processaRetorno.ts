@@ -65,12 +65,9 @@ export default async link_s3 => {
           });
           if (ted) {
             console.log('enviado');
-            Sqs.object(
-              'https://sqs.sa-east-1.amazonaws.com/544005205437/ted-solicitacao-boleto.fifo',
-              {
-                operacao_id: ted.operacao_id
-              }
-            );
+            Sqs.object(process.env.SQS_SOLICITACAO_BOLETO, {
+              operacao_id: ted.operacao_id
+            });
           }
         }
 
