@@ -20,10 +20,10 @@ class Ted extends Model {
         json_dados: {
           type: Sequelize.TEXT,
           get() {
-            return JSON.parse(this.getDataValue('value'));
+            return JSON.parse(this.getDataValue('json_dados'));
           },
           set(value) {
-            this.setDataValue('value', JSON.stringify(value));
+            this.setDataValue('json_dados', JSON.stringify(value));
           }
         }
       },

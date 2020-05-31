@@ -11,10 +11,10 @@ class Pendencia_ted extends Model {
         pendencias: {
           type: Sequelize.TEXT,
           get() {
-            return JSON.parse(this.getDataValue('value'));
+            return JSON.parse(this.getDataValue('pendencias'));
           },
           set(value) {
-            this.setDataValue('value', JSON.stringify(value));
+            this.setDataValue('pendencias', JSON.stringify(value));
           }
         }
       },

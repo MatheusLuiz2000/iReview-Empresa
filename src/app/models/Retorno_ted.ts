@@ -11,10 +11,10 @@ class Retorno_ted extends Model {
         json_retorno: {
           type: Sequelize.TEXT,
           get() {
-            return JSON.parse(this.getDataValue('value'));
+            return JSON.parse(this.getDataValue('json_retorno'));
           },
           set(value) {
-            this.setDataValue('value', JSON.stringify(value));
+            this.setDataValue('json_retorno', JSON.stringify(value));
           }
         }
       },
