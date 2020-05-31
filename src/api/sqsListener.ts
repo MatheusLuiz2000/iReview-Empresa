@@ -12,15 +12,14 @@ class Sqs {
   Start() {
     // Define Configuracoes do AWS.
     AWS.config.update({
-      region: 'sa-east-1',
-      accessKeyId: 'AKIAX5KJ4VW6WUNTQA6S',
-      secretAccessKey: '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'
+      region: process.env.AWS_REGION,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     });
     const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
     // Inicia o Metodo Consumer, iniciando a escuta á Queue SQS.
     const app = Consumer.create({
-      queueUrl:
-        'https://sqs.sa-east-1.amazonaws.com/544005205437/notas-solicitacao-ted.fifo',
+      queueUrl: process.env.SQS_SOLICITACAO_TED,
 
       // Dispara uma ação quando uma mensagem é retornada.
       handleMessage: async message => {

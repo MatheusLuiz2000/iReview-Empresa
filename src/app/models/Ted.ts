@@ -16,6 +16,7 @@ class Ted extends Model {
         valor_transferencia: Sequelize.DECIMAL(18, 3),
         identificacao: Sequelize.STRING(20),
         remessa_id: Sequelize.INTEGER,
+        desativado_em: Sequelize.DATE,
         json_dados: {
           type: Sequelize.TEXT,
           get() {
