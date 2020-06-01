@@ -84,6 +84,42 @@ class TedService {
     return { status: 200, data: ted };
   }
 
+  public async listarTeds(tipo) {
+    let teds: any;
+
+    if (tipo === 'pendente') {
+      teds = await Ted_model.findAll({ where: { remessa_id: null } });
+    }
+
+    if (tipo === 'efetivada') {
+      teds = await Ted_model.findAll({
+        include: {
+          model: Retorno_ted,
+          as: 'retorno_ted',
+          attributes: ['id', 'status_banco'],
+          where: { status_banco: '00' }
+        }
+      });
+    }
+
+    if (!teds) return { status: 204 };
+
+    for (const ted of teds) {
+      const cliente = await Cliente_api.cliente(ted.cliente_id);
+
+      if (cliente.status !== 200)
+        return {
+          status: 500,
+          data: { mensagem: 'Erro ao comunicar com cliente' }
+        };
+
+      ted.dataValues.nome = cliente.data.razao_social;
+      ted.dataValues.cnpj = cliente.data.documento;
+    }
+
+    return { status: 200, data: teds };
+  }
+
   public async criarTed(cliente_id, operacao_id, valor_transferencia) {
     valor_transferencia = parseFloat(valor_transferencia);
 
