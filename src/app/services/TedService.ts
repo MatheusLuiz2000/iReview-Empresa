@@ -97,7 +97,18 @@ class TedService {
           model: Retorno_ted,
           as: 'retorno_ted',
           attributes: ['id', 'status_banco'],
-          where: { status_banco: '00' }
+          where: { status_banco: 1 }
+        }
+      });
+    }
+
+    if (tipo === 'enviado') {
+      teds = await Ted_model.findAll({
+        include: {
+          model: Retorno_ted,
+          as: 'retorno_ted',
+          attributes: ['id', 'status_banco'],
+          where: { status_banco: null }
         }
       });
     }
