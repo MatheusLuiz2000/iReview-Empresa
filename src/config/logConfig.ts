@@ -4,7 +4,7 @@ export default {
   aws_region: process.env.AWS_REGION,
   aws_access_key_id: process.env.AWS_ACCESS_KEY_ID,
   aws_secret_key_id: process.env.AWS_SECRET_ACCESS_KEY,
-  nome_api: 'adiante-cliente',
+  nome_api: 'adiante-ted',
   fila_sqs_develop:
     'https://sqs.sa-east-1.amazonaws.com/544005205437/logs.fifo',
   fila_sqs_master: process.env.SQS_QUEUE,

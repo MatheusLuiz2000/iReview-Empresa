@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('tb_retornos_teds', {
@@ -29,7 +28,7 @@ module.exports = {
         }
       },
       json_retorno: {
-        type: Sequelize.JSON,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       criado_em: {
