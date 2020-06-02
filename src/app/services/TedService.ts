@@ -88,7 +88,9 @@ class TedService {
     let teds: any;
 
     if (tipo === 'pendente') {
-      teds = await Ted_model.findAll({ where: { remessa_id: null } });
+      teds = await Ted_model.findAll({
+        where: { remessa_id: null, desativado_em: null }
+      });
     }
 
     if (tipo === 'efetivada') {
@@ -97,7 +99,7 @@ class TedService {
           model: Retorno_ted,
           as: 'retorno_ted',
           attributes: ['id', 'status_banco'],
-          where: { status_banco: 1 }
+          where: { status_banco: 1, desativado_em: null }
         }
       });
     }
@@ -108,7 +110,7 @@ class TedService {
           model: Retorno_ted,
           as: 'retorno_ted',
           attributes: ['id', 'status_banco'],
-          where: { status_banco: null }
+          where: { status_banco: null, desativado_em: null }
         }
       });
     }
