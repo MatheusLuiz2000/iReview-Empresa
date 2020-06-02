@@ -106,12 +106,7 @@ class TedService {
 
     if (tipo === 'enviado') {
       teds = await Ted_model.findAll({
-        include: {
-          model: Retorno_ted,
-          as: 'retorno_ted',
-          attributes: ['id', 'status_banco'],
-          where: { status_banco: null, desativado_em: null }
-        }
+        where: { confirmada: false, desativado_em: null }
       });
     }
 
