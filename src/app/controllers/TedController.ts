@@ -56,6 +56,14 @@ class TedController {
     return res.status(status).json(data);
   }
 
+  public async listarTeds(req: Request, res: Response) {
+    const { tipo } = req.headers;
+
+    const { status, data } = await TedService.listarTeds(tipo);
+
+    return res.status(status).json(data);
+  }
+
   // Criacao do registro de Ted
   public async criarTed(req: Request, res: Response) {
     const { cliente_id, operacao_id, valor_transferencia } = req.body;
