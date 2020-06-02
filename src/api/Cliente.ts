@@ -49,7 +49,7 @@ class ConsultaCliente {
           endereco: true,
           banco: status
         },
-        url: `${process.env.CLIENTE}/${id}`
+        url: `${process.env.CLIENTE_BASE}/${id}`
       });
 
       return {

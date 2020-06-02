@@ -8,7 +8,15 @@ class Retorno_ted extends Model {
       {
         ted_id: Sequelize.INTEGER,
         status_banco: Sequelize.INTEGER,
-        json_retorno: Sequelize.JSON,
+        json_retorno: {
+          type: Sequelize.TEXT,
+          get() {
+            return JSON.parse(this.getDataValue('json_retorno'));
+          },
+          set(value) {
+            this.setDataValue('json_retorno', JSON.stringify(value));
+          }
+        }
       },
       {
         sequelize,

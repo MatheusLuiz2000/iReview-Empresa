@@ -1,5 +1,5 @@
 export default {
-  aws_region: 'sa-east-1',
-  aws_access_key_id: 'AKIAX5KJ4VW6WUNTQA6S',
-  aws_secret_key_id: 'yYFIFGARZdr57yBv0kFGD2kbGnCsF4u2zq4DRG3R'
+  aws_region: process.env.AWS_REGION,
+  aws_access_key_id: process.env.AWS_ACCESS_KEY_ID,
+  aws_secret_key_id: process.env.AWS_SECRET_ACCESS_KEY
 };
