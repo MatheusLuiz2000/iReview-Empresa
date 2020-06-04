@@ -90,29 +90,24 @@ class TedService {
     if (tipo === 'pendente') {
       teds = await Ted_model.findAndCountAll({
         where: { remessa_id: null, desativado_em: null },
-        limit: 10,
-        offset: (page - 1) * 10
+        limit: 100,
+        offset: (page - 1) * 100
       });
     }
 
     if (tipo === 'efetivada') {
       teds = await Ted_model.findAndCountAll({
-        include: {
-          model: Retorno_ted,
-          as: 'retorno_ted',
-          attributes: ['id', 'status_banco'],
-          where: { status_banco: 1, desativado_em: null }
-        },
-        limit: 10,
-        offset: (page - 1) * 10
+        where: { confirmada: true, desativado_em: null },
+        limit: 100,
+        offset: (page - 1) * 100
       });
     }
 
     if (tipo === 'enviado') {
       teds = await Ted_model.findAndCountAll({
         where: { confirmada: false, desativado_em: null },
-        limit: 10,
-        offset: (page - 1) * 10
+        limit: 100,
+        offset: (page - 1) * 100
       });
     }
 
@@ -204,7 +199,8 @@ class TedService {
         where: {
           remessa_id: null,
           codigo_banco: '341',
-          desativado_em: null
+          desativado_em: null,
+          confirmada: false
         }
       });
     }
@@ -214,7 +210,8 @@ class TedService {
         where: {
           [Op.not]: { codigo_banco: '341' },
           remessa_id: null,
-          desativado_em: null
+          desativado_em: null,
+          confirmada: false
         }
       });
     }
@@ -369,7 +366,7 @@ class TedService {
     return processarRetorno;
   }
 
-  public async cancelaTed(operacao_id) {
+  public async cancelaTed(operacao_id, pagamento_manual) {
     const registro_ted = await Ted_model.findOne({
       where: { operacao_id }
     });
@@ -381,6 +378,17 @@ class TedService {
       return {
         status: 409,
         data: { mensagem: 'Não é possível cancelar a Operação.' }
+      };
+    }
+
+    if (pagamento_manual) {
+      await registro_ted.update({
+        confirmada: true
+      });
+
+      return {
+        status: 200,
+        data: { mensagem: 'Pagamento manual aplicado com Sucsso!' }
       };
     }
 
