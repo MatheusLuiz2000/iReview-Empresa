@@ -88,7 +88,7 @@ class TedService {
     let teds: any;
 
     if (tipo === 'pendente') {
-      teds = await Ted_model.findAll({
+      teds = await Ted_model.findAndCountAll({
         where: { remessa_id: null, desativado_em: null },
         limit: 10,
         offset: (page - 1) * 10
@@ -96,7 +96,7 @@ class TedService {
     }
 
     if (tipo === 'efetivada') {
-      teds = await Ted_model.findAll({
+      teds = await Ted_model.findAndCountAll({
         include: {
           model: Retorno_ted,
           as: 'retorno_ted',
@@ -109,7 +109,7 @@ class TedService {
     }
 
     if (tipo === 'enviado') {
-      teds = await Ted_model.findAll({
+      teds = await Ted_model.findAndCountAll({
         where: { confirmada: false, desativado_em: null },
         limit: 10,
         offset: (page - 1) * 10
