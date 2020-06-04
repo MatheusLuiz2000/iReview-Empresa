@@ -84,12 +84,14 @@ class TedService {
     return { status: 200, data: ted };
   }
 
-  public async listarTeds(tipo) {
+  public async listarTeds(tipo, page) {
     let teds: any;
 
     if (tipo === 'pendente') {
       teds = await Ted_model.findAll({
-        where: { remessa_id: null, desativado_em: null }
+        where: { remessa_id: null, desativado_em: null },
+        limit: 10,
+        offset: (page - 1) * 10
       });
     }
 
@@ -100,13 +102,17 @@ class TedService {
           as: 'retorno_ted',
           attributes: ['id', 'status_banco'],
           where: { status_banco: 1, desativado_em: null }
-        }
+        },
+        limit: 10,
+        offset: (page - 1) * 10
       });
     }
 
     if (tipo === 'enviado') {
       teds = await Ted_model.findAll({
-        where: { confirmada: false, desativado_em: null }
+        where: { confirmada: false, desativado_em: null },
+        limit: 10,
+        offset: (page - 1) * 10
       });
     }
 

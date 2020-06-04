@@ -57,9 +57,9 @@ class TedController {
   }
 
   public async listarTeds(req: Request, res: Response) {
-    const { tipo } = req.headers;
+    const { tipo, page } = req.headers;
 
-    const { status, data } = await TedService.listarTeds(tipo);
+    const { status, data } = await TedService.listarTeds(tipo, page);
 
     return res.status(status).json(data);
   }
