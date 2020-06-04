@@ -64,7 +64,10 @@ export default async link_s3 => {
             where: { identificacao: arrayDetalhe[contagem].uso_empresa }
           });
           if (ted) {
-            console.log('enviado');
+            await ted.update({
+              confirmada: true
+            });
+
             Sqs.object(process.env.SQS_SOLICITACAO_BOLETO, {
               operacao_id: ted.operacao_id
             });
