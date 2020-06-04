@@ -90,24 +90,24 @@ class TedService {
     if (tipo === 'pendente') {
       teds = await Ted_model.findAndCountAll({
         where: { remessa_id: null, desativado_em: null },
-        limit: 100,
-        offset: (page - 1) * 100
+        limit: 10,
+        offset: (page - 1) * 10
       });
     }
 
     if (tipo === 'efetivada') {
       teds = await Ted_model.findAndCountAll({
         where: { confirmada: true, desativado_em: null },
-        limit: 100,
-        offset: (page - 1) * 100
+        limit: 10,
+        offset: (page - 1) * 10
       });
     }
 
     if (tipo === 'enviado') {
       teds = await Ted_model.findAndCountAll({
         where: { confirmada: false, desativado_em: null },
-        limit: 100,
-        offset: (page - 1) * 100
+        limit: 10,
+        offset: (page - 1) * 10
       });
     }
 
