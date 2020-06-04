@@ -116,9 +116,9 @@ class TedService {
       });
     }
 
-    if (!teds) return { status: 204 };
+    if (teds.count > 0) return { status: 204 };
 
-    for (const ted of teds) {
+    for (const ted of teds.rows) {
       const cliente = await Cliente_api.cliente(ted.cliente_id);
 
       if (cliente.status !== 200)
