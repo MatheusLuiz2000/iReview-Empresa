@@ -10,12 +10,12 @@ export default async link => {
     // Create S3 service object
     const s3 = new AWS.S3({
       apiVersion: '2006-03-01',
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+      accessKeyId: 'AKIAUQBZ2ECKT55I6NTB',
+      secretAccessKey: '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'
     });
 
     let getParams = {
-      Bucket: process.env.BUCKET,
+      Bucket: 'adiantesa',
       Key
     };
 
