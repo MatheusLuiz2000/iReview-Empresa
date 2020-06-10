@@ -386,9 +386,13 @@ class TedService {
         confirmada: true
       });
 
+      Sqs.object(process.env.SQS_SOLICITACAO_BOLETO, {
+        operacao_id
+      });
+
       return {
         status: 200,
-        data: { mensagem: 'Pagamento manual aplicado com Sucsso!' }
+        data: { mensagem: 'Pagamento manual aplicado com Sucesso!' }
       };
     }
 
