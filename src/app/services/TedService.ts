@@ -89,7 +89,7 @@ class TedService {
 
     if (tipo === 'pendente') {
       teds = await Ted_model.findAndCountAll({
-        where: { remessa_id: null, desativado_em: null },
+        where: { remessa_id: null, desativado_em: null, confirmada: false },
         limit: 10,
         offset: (page - 1) * 10
       });
@@ -97,7 +97,11 @@ class TedService {
 
     if (tipo === 'efetivada') {
       teds = await Ted_model.findAndCountAll({
-        where: { confirmada: true, desativado_em: null },
+        where: {
+          confirmada: true,
+          desativado_em: null,
+          remessa_id: { [Op.ne]: null }
+        },
         limit: 10,
         offset: (page - 1) * 10
       });
@@ -105,7 +109,11 @@ class TedService {
 
     if (tipo === 'enviado') {
       teds = await Ted_model.findAndCountAll({
-        where: { confirmada: false, desativado_em: null },
+        where: {
+          confirmada: false,
+          desativado_em: null,
+          remessa_id: { [Op.ne]: null }
+        },
         limit: 10,
         offset: (page - 1) * 10
       });
@@ -382,6 +390,13 @@ class TedService {
     }
 
     if (pagamento_manual) {
+      if (registro_ted.confirmada) {
+        return {
+          status: 400,
+          data: { mensagem: 'Ted ja confirmada!' }
+        };
+      }
+
       await registro_ted.update({
         confirmada: true
       });
