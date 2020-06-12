@@ -99,8 +99,7 @@ class TedService {
       teds = await Ted_model.findAndCountAll({
         where: {
           confirmada: true,
-          desativado_em: null,
-          remessa_id: { [Op.ne]: null }
+          desativado_em: null
         },
         limit: 10,
         offset: (page - 1) * 10
