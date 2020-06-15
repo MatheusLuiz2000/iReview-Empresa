@@ -4,8 +4,8 @@ import ted from '../models/Ted';
 
 const s3 = new S3({
   apiVersion: '2006-03-01',
-  accessKeyId: process.env.ACCESSKEYID,
-  secretAccessKey: process.env.SECRETACCESSKEY
+  accessKeyId: 'AKIAUQBZ2ECKT55I6NTB',
+  secretAccessKey: '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'
 });
 
 class Funcoes {
@@ -21,7 +21,7 @@ class Funcoes {
 
   public async salvarS3(conteudo) {
     const params = {
-      Bucket: process.env.BUCKET,
+      Bucket: 'adiantesa',
       Key: `uploads/remessa/deposito/${new Date().getFullYear()}/${new Date().getUTCMonth() +
         1}/REMESSA16860_${Date.now()}.REM`,
       Body: conteudo
