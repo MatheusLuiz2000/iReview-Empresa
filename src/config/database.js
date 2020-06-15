@@ -16,7 +16,7 @@ module.exports = {
   dialectOptions: {
     useUTC: true // for reading from database
   },
-  timezone: '+03:00',
+  timezone: '-03:00',
   pool: {
     max: 10,
     min: 5,
