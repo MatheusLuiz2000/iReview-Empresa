@@ -84,12 +84,12 @@ class TedController {
 
   // Geracao do arquivo de TED
   public async gerarTed(req: Request, res: Response) {
-    const { banco } = req.headers;
+    const { banco } = req.query;
 
     if (!banco)
       return res
         .status(400)
-        .json({ mensagem: 'É nescessário enviar o Banco nos headers' });
+        .json({ mensagem: 'É nescessário enviar o Banco nos query parameters' });
 
     if (banco !== 'itau' && banco !== 'outros')
       return res
