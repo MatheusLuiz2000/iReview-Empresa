@@ -21,7 +21,11 @@ class Ted extends Model {
         json_dados: {
           type: Sequelize.TEXT,
           get() {
-            return JSON.parse(this.getDataValue('json_dados'));
+            try {
+              return JSON.parse(this.getDataValue('json_dados'));
+            } catch (error) {
+              return this.getDataValue('json_dados');
+            }
           },
           set(value) {
             this.setDataValue('json_dados', JSON.stringify(value));
