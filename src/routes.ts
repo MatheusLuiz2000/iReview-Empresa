@@ -18,7 +18,7 @@ routes.get('/bd/seed', (req, res) => {
 });
 routes.get('/', TedController.docs); // Rota para a documentação
 routes.get('/historico', TedController.listar); // Rota para a documentação
-routes.get('/:id', TedValidator.buscaTedById, TedController.listarById); // Rota para a documentação
+
 routes.get('/listagem/ted', TedController.listarTeds);
 routes.post('/cadastrar/', TedValidator.criaTed, TedController.criarTed);
 routes.get('/gerar', TedController.gerarTed);
@@ -28,6 +28,8 @@ routes.patch('/cancelar/:operacao_id', TedController.cancelaTed);
 
 routes.get('/consolidada/:id', TedController.listarConsolidada);
 routes.get('/dados/bancarios/:id', TedController.listarDadosBancarios);
+
+routes.get('/:id', TedValidator.buscaTedById, TedController.listarById); // Rota para a documentação
 
 // routes.get('/health', TedController.health); // Rota para o health check
 // routes.get('/testes', TedController.testes); // Rota para o health check
