@@ -21,8 +21,8 @@ routes.get('/historico', TedController.listar); // Rota para a documentação
 routes.get('/:id', TedValidator.buscaTedById, TedController.listarById); // Rota para a documentação
 routes.get('/listagem/ted', TedController.listarTeds);
 routes.post('/cadastrar/', TedValidator.criaTed, TedController.criarTed);
-routes.post('/gerar', TedController.gerarTed);
-routes.post('/retorno', TedController.leituraRetornoTed);
+routes.get('/gerar', TedController.gerarTed);
+routes.get('/retorno', TedController.leituraRetornoTed);
 
 routes.patch('/cancelar/:operacao_id', TedController.cancelaTed);
 
