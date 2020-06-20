@@ -1,6 +1,6 @@
 {
   "name": "service-pattern",
-  "version": "1.0.80-0",
+  "version": "1.0.81-0",
   "description": "",
   "main": "server.js",
   "husky": {

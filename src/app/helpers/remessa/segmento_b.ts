@@ -15,10 +15,10 @@ export default async (dados, contadorLinha) => {
       SEGMENTO: 'B',
       TIPO_INSCRICAO: '2',
       CNPJ_FAVORECIDO: dados.documento,
-      ENDERECO: dados.endereco.cep.logradouro_sem_acento,
+      ENDERECO: dados.endereco.logradouro,
       NUMERO: dados.endereco.numero,
       COMPLEMENTO: dados.endereco.complemento,
-      BAIRRO: dados.endereco.cep.bairro.bairro_sem_acento,
+      BAIRRO: dados.endereco.bairro,
       CIDADE: dados.endereco.cep.cidade.cidade_sem_acento,
       CEP: dados.endereco.cep.cep,
       ESTADO: dados.endereco.cep.estado.sigla
