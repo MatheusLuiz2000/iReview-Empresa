@@ -76,7 +76,7 @@ class ConsultaFinnet {
     try {
       requisicao = await axios({
         method: 'post',
-        url: `${process.env.FINNET_BASE}'/finnet/remessa/processamento/confirmar/${tipo}`,
+        url: `${process.env.FINNET_BASE}/finnet/remessa/processamento/confirmar/${tipo}`,
         data: {
           links
         }

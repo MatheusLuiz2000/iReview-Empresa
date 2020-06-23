@@ -87,9 +87,9 @@ class TedController {
     const { banco } = req.query;
 
     if (!banco)
-      return res
-        .status(400)
-        .json({ mensagem: 'É nescessário enviar o Banco nos query parameters' });
+      return res.status(400).json({
+        mensagem: 'É nescessário enviar o Banco nos query parameters'
+      });
 
     if (banco !== 'itau' && banco !== 'outros')
       return res
@@ -109,6 +109,8 @@ class TedController {
     let array_links = [];
 
     const links = await FinnetApi.leituraRetorno();
+
+    console.log('links: ', links);
 
     if (links.status === 204)
       return res
@@ -130,6 +132,8 @@ class TedController {
       array_links,
       'deposito'
     );
+
+    console.log(confirmaProcesamento);
 
     if (confirmaProcesamento.status !== 200) {
       Log.erro(
