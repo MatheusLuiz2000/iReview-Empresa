@@ -27,7 +27,7 @@ export default async (dados, dadosTed, contadorLinha) => {
         .add(1, 'd');
     }
 
-    if (horaAtual > 15 && horaAtual < 18 && codigo_banco == 341) {
+    if (horaAtual >= 15 && horaAtual < 18 && codigo_banco == 341) {
       return moment().utcOffset(-3);
     }
 
