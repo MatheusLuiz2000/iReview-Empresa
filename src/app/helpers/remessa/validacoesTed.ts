@@ -27,7 +27,7 @@ export default async buscaDadosCliente => {
     !banco_dados.agencia ||
     !banco_dados.conta ||
     !banco_dados.digito ||
-    !banco_dados.codigo_banco ||
+    banco_dados.codigo_banco === '' ||
     !banco_dados.tipo_conta
   ) {
     retornoDadosFaltando.push({
