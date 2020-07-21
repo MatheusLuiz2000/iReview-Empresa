@@ -337,7 +337,9 @@ class TedService {
 
       tedsConfirmadas.push(element.id);
 
-      valorTotalPagamentoArquivo += parseFloat(element.valor_transferencia);
+      valorTotalPagamentoArquivo += +parseFloat(
+        element.valor_transferencia
+      ).toFixed(2);
     }
 
     if (RetornoTedLog.length > 0) {
