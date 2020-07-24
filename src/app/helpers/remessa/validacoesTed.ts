@@ -29,7 +29,8 @@ export default async buscaDadosCliente => {
     banco_dados.digito === '' ||
     banco_dados.digito === undefined ||
     !banco_dados.codigo_banco ||
-    !banco_dados.tipo_conta
+    banco_dados.tipo_conta === '' ||
+    banco_dados.tipo_conta === undefined
   ) {
     console.log('entrei aqui');
     console.log(banco_dados);
