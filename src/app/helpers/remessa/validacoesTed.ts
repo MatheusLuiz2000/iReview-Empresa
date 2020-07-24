@@ -31,6 +31,15 @@ export default async buscaDadosCliente => {
     !banco_dados.codigo_banco ||
     !banco_dados.tipo_conta
   ) {
+    console.log('entrei aqui');
+    console.log(banco_dados);
+    console.log(!banco_dados.agencia);
+    console.log(!banco_dados.conta);
+    console.log(banco_dados.digito === '');
+    console.log(banco_dados.digito === undefined);
+    console.log(!banco_dados.codigo_banco);
+    console.log(!banco_dados.tipo_conta);
+
     retornoDadosFaltando.push({
       dado: 'Banco',
       mensagem:
