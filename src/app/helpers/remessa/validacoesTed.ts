@@ -26,10 +26,21 @@ export default async buscaDadosCliente => {
   } else if (
     !banco_dados.agencia ||
     !banco_dados.conta ||
-    !banco_dados.digito ||
-    banco_dados.codigo_banco === '' ||
-    !banco_dados.tipo_conta
+    banco_dados.digito === '' ||
+    banco_dados.digito === undefined ||
+    !banco_dados.codigo_banco ||
+    banco_dados.tipo_conta === '' ||
+    banco_dados.tipo_conta === undefined
   ) {
+    console.log('entrei aqui');
+    console.log(banco_dados);
+    console.log(!banco_dados.agencia);
+    console.log(!banco_dados.conta);
+    console.log(banco_dados.digito === '');
+    console.log(banco_dados.digito === undefined);
+    console.log(!banco_dados.codigo_banco);
+    console.log(!banco_dados.tipo_conta);
+
     retornoDadosFaltando.push({
       dado: 'Banco',
       mensagem:
