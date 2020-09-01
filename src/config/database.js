@@ -14,7 +14,7 @@ module.exports = {
     underscoredAll: true
   },
   dialectOptions: {
-    useUTC: true // for reading from database
+    useUTC: false // for reading from database
   },
   timezone: '-03:00',
   pool: {
