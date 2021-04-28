@@ -1,12 +1,29 @@
 import SQLConfig from '../config/database';
+
+import Plataformas from '../app/models/Plataformas';
+import Status from '../app/models/Status';
+import TiposPagamento from '../app/models/TiposPagamento';
+import Transacoes from '../app/models/Transacoes';
+import Logs from '../app/models/Log';
+import HistoricoTransacoes from '../app/models/HistoricoTransacoes';
+import CartoesClientes from '../app/models/CartoesClientes';
+
 // import mongoose from 'mongoose';
 
 const Sequelize = require('sequelize');
 
-const models = [];
+const models = [
+  Plataformas,
+  Status,
+  TiposPagamento,
+  CartoesClientes,
+  Transacoes,
+  Logs,
+  HistoricoTransacoes
+];
 
 class Database {
-  connection; 
+  connection;
 
   NOSQLConnection;
 

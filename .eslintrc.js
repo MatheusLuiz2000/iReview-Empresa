@@ -9,8 +9,8 @@ module.exports = {
     'airbnb-base',
     'prettier',
     "plugin:import/errors",
-"plugin:import/warnings",
-"plugin:import/typescript",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
   ],
   globals: {
     Atomics: 'readonly',
@@ -28,6 +28,7 @@ module.exports = {
   rules: {
     "prettier/prettier": "error",
     "class-methods-use-this":"off",
+    "no-console": "off",
     "no-param-reassign":"off",
     "camelcase": "off",
     "import/no-unresolved": 1,
@@ -40,11 +41,6 @@ module.exports = {
     }],
     "prefer-const": 0,
     "no-var": 2,
-    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
-    "no-array-constructor" : "off",
-    "no-restricted-syntax" : "off",
-    "no-await-in-loop": "off",
-    "no-continue" : "off"
+    "no-unused-vars": ["error", { "argsIgnorePattern": "Request" }]
   }
-  }
-
+}
