@@ -1,0 +1,26 @@
+x-aws-vpc: "vpc-0d5e750e3c2b433ef"
+x-aws-loadbalancer: "arn:aws:elasticloadbalancing:us-east-1:044060693635:loadbalancer/app/curso-beta-pagamentos/e87651990f8b899e"
+version: "3.4"
+services:
+  curso-beta-pagamentos:
+    container_name: curso-beta-pagamentos
+    image: 044060693635.dkr.ecr.us-east-1.amazonaws.com/curso-beta-pagamentos:latest
+    environment:
+      - PORT=80
+    ports:
+      - target: 80
+        x-aws-protocol: http
+    command: npm run deploy
+    networks:
+      - cbpg-network
+x-aws-cloudformation:
+  Resources:
+    Cursobetapagamentos80Listener:
+      Properties:
+        Certificates:
+          - CertificateArn: "arn:aws:acm:us-east-1:044060693635:certificate/afc26a15-b3e8-4095-8518-1f4c97c3b93e"
+        Protocol: HTTPS
+        Port: 443
+networks:
+  cbpg-network:
+    driver: bridge

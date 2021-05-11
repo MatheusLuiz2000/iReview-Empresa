@@ -7,6 +7,8 @@ services:
       - ./src/:/usr/src
       - /usr/src/xray-daemon
       - /usr/src/curso-beta-pagamentos
+    environment:
+      - PORT=80
     ports:
       - 80:80
     command: npm run deploy
