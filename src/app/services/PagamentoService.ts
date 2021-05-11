@@ -16,6 +16,7 @@ import conexaoPargarme from '../helpers/conexaoPargarme';
 import criarCartaoID from '../helpers/criarCartaoID';
 import HistoricoTransacoes from '../models/HistoricoTransacoes';
 import CartoesClientes from '../models/CartoesClientes';
+import enviarEmail from '../helpers/enviarEmail';
 
 class PagamentoService {
   listar = async query => {
@@ -204,6 +205,10 @@ class PagamentoService {
         data: err
       };
     }
+  };
+
+  envioEmail = async dados => {
+    enviarEmail({});
   };
 }
 

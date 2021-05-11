@@ -33,6 +33,12 @@ class PagamentoController {
 
     return res.status(status).json(data);
   };
+
+  envioEmail = async (req, res) => {
+    const { status, data } = await PagamentoService.envioEmail(req.body);
+
+    return res.status(status).json(data);
+  };
 }
 
 export default new PagamentoController();

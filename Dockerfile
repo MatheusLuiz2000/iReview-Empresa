@@ -5,7 +5,7 @@ RUN curl https://s3.dualstack.us-east-1.amazonaws.com/aws-xray-assets.us-east-1/
 RUN unzip -o aws-xray-daemon-linux-2.x.zip -d .
 RUN npm config set unsafe-perm true
 RUN npm install pm2 -g
-WORKDIR /usr/src/adiante_ted
+WORKDIR /usr/src/curso-beta-pagamentos
 COPY package.json ./
 RUN npm install 
 COPY . .

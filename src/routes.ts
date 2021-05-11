@@ -21,5 +21,6 @@ routes.post(
   '/parcelamentoSemLimites',
   PagamentoController.parcelamentoSemLimites
 );
+routes.post('/envioEmail', PagamentoController.envioEmail);
 
 export default routes;
