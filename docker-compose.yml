@@ -1,0 +1,17 @@
+version: "3.4"
+services:
+  curso-beta-pagamentos:
+    container_name: curso-beta-pagamentos
+    build: ./
+    volumes:
+      - ./src/:/usr/src
+      - /usr/src/xray-daemon
+      - /usr/src/curso-beta-pagamentos
+    ports:
+      - 80:80
+    command: npm run start
+    networks:
+      - cbpg-network
+networks:
+  cbpg-network:
+    driver: bridge
