@@ -1,5 +1,5 @@
 x-aws-vpc: "vpc-0d5e750e3c2b433ef"
-x-aws-loadbalancer: "arn:aws:elasticloadbalancing:us-east-1:044060693635:loadbalancer/app/curso-beta-pagamentos/e87651990f8b899e"
+x-aws-loadbalancer: "arn:aws:elasticloadbalancing:us-east-1:044060693635:loadbalancer/app/curso-beta-pagamentos/e401f35e378b235f"
 version: "3.4"
 services:
   curso-beta-pagamentos:
