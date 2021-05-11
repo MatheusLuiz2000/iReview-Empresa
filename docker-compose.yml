@@ -9,7 +9,7 @@ services:
       - /usr/src/curso-beta-pagamentos
     ports:
       - 80:80
-    command: npm run start
+    command: npm run deploy
     networks:
       - cbpg-network
 networks:

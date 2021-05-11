@@ -1,6 +1,6 @@
 {
   "name": "curso-beta-pagamento",
-  "version": "1.0.93-0",
+  "version": "1.0.94-0",
   "description": "",
   "main": "server.js",
   "husky": {
