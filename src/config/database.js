@@ -1,5 +1,7 @@
 require('../bootstrap');
 
+console.log('env DB_HOST', process.env.DB_HOST);
+console.log('env', process.env);
 module.exports = {
   dialect: process.env.DB_DIALECT || 'postgres',
   host: process.env.DB_HOST,

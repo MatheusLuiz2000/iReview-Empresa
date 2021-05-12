@@ -46,9 +46,6 @@ class PagamentoValidator {
     }
 
     const TransacaoSchema = Yup.object().shape({
-      cliente_id: Yup.string('Deve ser um número').required(
-        'Cliente é obrigatório'
-      ),
       plataforma: Yup.string('Deve ser um número').required(
         'Plataforma é obrigatória'
       ),
@@ -62,9 +59,6 @@ class PagamentoValidator {
         'Valor total a ser cobrado é obrigatório'
       ),
       customer: Yup.object().shape({
-        id_proprio: Yup.string('Deve ser um ID').required(
-          'ID do cliente deve ser obrigatório'
-        ),
         nome: Yup.string('Deve ser um nome').required('Nome é obrigatório'),
         tipo: Yup.string('Deve ser um tipo').required('Tipo é obrigatório'),
         pais: Yup.string('Deve ser um tipo').required('País é obrigatório'),
