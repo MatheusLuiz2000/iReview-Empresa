@@ -16,8 +16,6 @@ export default async function(dados, transacao) {
     cartao_id
   } = dados;
 
-  console.log(transacao.status);
-
   const buscaStatus = await Status.findOne({
     where: {
       nome: transacao.status

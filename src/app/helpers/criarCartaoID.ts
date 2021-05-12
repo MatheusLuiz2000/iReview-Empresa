@@ -21,7 +21,6 @@ export default async function(client, dados) {
 
     return clientCard;
   } catch (error) {
-    console.log(error);
     logError('Erro ao criar o cartão', error);
 
     return false;

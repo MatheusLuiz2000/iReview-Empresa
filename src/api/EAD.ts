@@ -2,7 +2,6 @@ import axios from 'axios';
 
 class EAD {
   async registraUsuario(dados) {
-    console.log('env ead', process.env.EAD_URL);
     try {
       const response = await axios({
         method: 'post',

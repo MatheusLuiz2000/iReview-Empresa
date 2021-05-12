@@ -64,6 +64,8 @@ class PagamentoService {
         dadosPagarme(dados)
       );
 
+      logError('Transacao', createTransaction);
+
       console.log('transacao', createTransaction);
 
       // Salva a transacao no banco

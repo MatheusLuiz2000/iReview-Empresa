@@ -7,7 +7,6 @@ import PagamentoValidator from './app/validators/PagamentoValidator';
 const routes = new Router();
 
 routes.get('/health', (req, res) => {
-  console.log(process.env.DB_HOST);
   return res.json({ ok: 'teste2' });
 });
 
