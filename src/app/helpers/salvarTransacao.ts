@@ -2,8 +2,9 @@ import Transacoes from '../models/Transacoes';
 import Status from '../models/Status';
 import TiposPagamento from '../models/TiposPagamento';
 import HistoricoTransacoes from '../models/HistoricoTransacoes';
+import enviarEmail from './enviarEmail';
 
-export default async function(dados, transacao) {
+export default async function(dados, transacao, erro = '') {
   const {
     cliente_id,
     produto_id,
@@ -46,6 +47,37 @@ export default async function(dados, transacao) {
     transacao_id: transacaoID.id,
     json: transacao
   });
+
+  let tipoEmail = 2;
+
+  switch (transacao.status) {
+    case 'paid':
+      tipoEmail = 1;
+      break;
+    case 'processing':
+    case 'waiting_payment':
+    case 'pending_refund':
+    case 'analyzing':
+      tipoEmail = 2;
+      break;
+    case 'refused':
+      tipoEmail = 3;
+      break;
+    default:
+      break;
+  }
+
+  await enviarEmail(
+    tipoEmail,
+    transacaoID.id,
+    dados.customer.email,
+    dados.item.titulo_item,
+    dados.numero_parcelas,
+    dados.valor_parcelas,
+    dados.total_operacao,
+    dados.customer.nome,
+    erro
+  );
 
   return true;
 }

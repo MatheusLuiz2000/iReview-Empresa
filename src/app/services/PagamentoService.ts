@@ -41,7 +41,7 @@ class PagamentoService {
 
       return {
         status: 400,
-        data: client.data
+        data: 'Erro ao realizar a transação! Tenta novamente'
       };
     }
 
@@ -52,7 +52,7 @@ class PagamentoService {
         if (!clientCard) {
           return {
             status: 400,
-            data: 'Erro ao criar cartão'
+            data: 'O cartão não é válido. Valide os dados fornecidos!'
           };
         }
 
@@ -68,19 +68,27 @@ class PagamentoService {
 
       console.log('transacao', createTransaction);
 
+      if (createTransaction.status === 'paid') {
+        await EAD.efetivaMatricula(
+          regitraCliente.data.user.id,
+          dados.tipo_curso,
+          dados.produto_id
+        );
+      }
+
       // Salva a transacao no banco
       await salvarTransacao(dados, createTransaction);
 
       return {
         status: 200,
-        data: createTransaction
+        data: createTransaction.status === 'paid'
       };
     } catch (error) {
       logError('Erro ao transação', error);
 
       return {
         status: 400,
-        data: error
+        data: 'Erro ao tentar realizar a transação! Tenta novamente(2)'
       };
     }
   };
@@ -215,7 +223,17 @@ class PagamentoService {
   };
 
   envioEmail = async dados => {
-    enviarEmail({});
+    enviarEmail(
+      3,
+      '1111111',
+      'matheusluiz200599@gmail.com',
+      'COMPRA TESTE OI',
+      '5',
+      44.9,
+      9000.0,
+      'MATHEUS LOPES',
+      'MOTIVO TESTE'
+    );
   };
 }
 
