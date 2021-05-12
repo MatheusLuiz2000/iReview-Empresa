@@ -229,7 +229,7 @@ class PagamentoService {
       'matheusluiz200599@gmail.com',
       'COMPRA TESTE OI',
       '5',
-      44.9,
+      2.2,
       9000.0,
       'MATHEUS LOPES',
       'MOTIVO TESTE'

@@ -49,18 +49,22 @@ export default async function(
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
 
+  const valorParcelasPTBR = parseFloat(valor_parcelas).toLocaleString('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+
+  const totalPTBR = parseFloat(total).toLocaleString('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+
   const replacements = {
     titulo,
     id_transacao,
     numero_parcelas,
-    valor_parcelas: valor_parcelas.toLocaleString('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    }),
-    total: total.toLocaleString('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    }),
+    valor_parcelas: valorParcelasPTBR,
+    total: totalPTBR,
     nome,
     motivo
   };

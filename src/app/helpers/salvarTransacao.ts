@@ -73,8 +73,8 @@ export default async function(dados, transacao, erro = '') {
     dados.customer.email,
     dados.item.titulo_item,
     dados.numero_parcelas,
-    dados.valor_parcelas,
-    dados.total_operacao,
+    parseFloat(dados.valor_parcelas).toFixed(2),
+    parseFloat(dados.total_operacao_currency).toFixed(2),
     dados.customer.nome,
     erro
   );
