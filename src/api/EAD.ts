@@ -25,15 +25,20 @@ class EAD {
   }
 
   async efetivaMatricula(user_id, tipo, turma_id) {
+    tipo = parseInt(tipo, 10);
+
+    const objFinal = {
+      user_id,
+      tipo,
+      ...(tipo === 1 && { turma_id }),
+      ...(tipo === 2 && { combo_id: turma_id })
+    };
+
     try {
       const response = await axios({
         method: 'post',
         url: `${process.env.EAD_URL}/api/efetivaMatricula`,
-        data: {
-          user_id,
-          tipo,
-          turma_id
-        }
+        data: objFinal
       });
 
       return { status: response.status, data: response.data };

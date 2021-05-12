@@ -223,17 +223,8 @@ class PagamentoService {
   };
 
   envioEmail = async dados => {
-    enviarEmail(
-      3,
-      '1111111',
-      'matheusluiz200599@gmail.com',
-      'COMPRA TESTE OI',
-      '5',
-      2.2,
-      9000.0,
-      'MATHEUS LOPES',
-      'MOTIVO TESTE'
-    );
+    // const teste = await EAD.efetivaMatricula(299, 2, 10);
+    // console.log(teste);
   };
 }
 
