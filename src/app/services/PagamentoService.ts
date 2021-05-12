@@ -17,6 +17,7 @@ import criarCartaoID from '../helpers/criarCartaoID';
 import HistoricoTransacoes from '../models/HistoricoTransacoes';
 import CartoesClientes from '../models/CartoesClientes';
 import enviarEmail from '../helpers/enviarEmail';
+import EAD from '../../api/EAD';
 
 class PagamentoService {
   listar = async query => {
@@ -29,6 +30,10 @@ class PagamentoService {
   };
 
   transacao = async dados => {
+    const regitraCliente = await EAD.registraUsuario(dados);
+
+    dados.cliente_id = regitraCliente.data.user.id;
+
     const client = await conexaoPargarme();
 
     if (!client.status) {

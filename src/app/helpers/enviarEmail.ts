@@ -1,8 +1,6 @@
 import nodemailer from 'nodemailer';
 
 export default async function(dados) {
-  const {} = dados;
-
   let transporter = await nodemailer.createTransport(
     {
       host: 'smtp.googlemail.com',
@@ -21,7 +19,7 @@ export default async function(dados) {
   let info = await transporter.sendMail(
     {
       from: 'pagamentos@cursobeta.com.br', // sender address
-      to: 'matheusluiz200599@gmail.com', // list of receivers
+      to: dados.customer.email, // list of receivers
       subject: 'Hello ✔', // Subject line
       text: 'Hello world?', // plain text body
       html: '<b>Hello world?</b>' // html body
@@ -31,6 +29,8 @@ export default async function(dados) {
       console.log('data2', data2);
     }
   );
+
+  return true;
 
   // console.log('Message sent: %s', info.messageId);
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>

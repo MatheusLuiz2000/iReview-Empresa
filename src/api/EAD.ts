@@ -1,23 +1,14 @@
 import axios from 'axios';
-import IndicacaoService from '../app/services/IndicacaoService';
 
-class AdianteGameficacao {
-  async consultaTipoPontuacao(dados) {
-    const {} = dados;
+class EAD {
+  async registraUsuario(dados) {
     try {
       const response = await axios({
         method: 'post',
-        url: `${process.env.EAD_URL}/integracao`,
+        url: `${process.env.EAD_URL}/api/users`,
         data: {
-          codigo_produto: dados.item.id_item,
-          nome_produto: dados.item.titulo_item,
-          preco: dados.item.preco_unitario,
-          email_comprador: dados.customer.email,
-          nome_comprador: dados.customer.nome,
-          cpf_comprador: dados.customer.documento,
-          telefone_comprador: dados.customer.telefone_contato,
-          codigo_transacao: dados.transacao.id,
-          forma_de_pagamento: dados.tipo_pagamento
+          email: dados.customer.email,
+          name: dados.customernome
         }
       });
 
@@ -33,4 +24,4 @@ class AdianteGameficacao {
   }
 }
 
-export default new AdianteGameficacao();
+export default new EAD();

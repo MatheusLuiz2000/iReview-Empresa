@@ -9,6 +9,11 @@ services:
       - /usr/src/curso-beta-pagamentos
     environment:
       - PORT=80
+      - DB_HOST=curso-beta-dev.clymltjuqpw4.us-east-1.rds.amazonaws.com
+      - DB_USER=master
+      - DB_PASS=mudar123
+      - DB_NAME=curso-beta-pagamento
+      - EAD_URL=https://ead-dev.cursobeta.com.br
     ports:
       - 80:80
     command: npm run deploy
