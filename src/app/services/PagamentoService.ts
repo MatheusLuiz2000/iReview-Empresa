@@ -102,7 +102,7 @@ class PagamentoService {
   };
 
   postBack = async dados => {
-    console.log('req body', dados);
+    console.log('REQ BODY DEVOLVEU ISSO', dados);
     const payload = Object.fromEntries(new URLSearchParams(dados.payload));
 
     if (!dados) {
@@ -110,6 +110,10 @@ class PagamentoService {
         status: 400
       };
     }
+
+    console.log('TENTANDO DADO AQUI', dados.id);
+    console.log('PAY LOAD DEVOLVEU ISSO', payload);
+    console.log('ID DO PAYLOAD', payload.id);
 
     console.log(payload);
 

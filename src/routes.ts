@@ -7,7 +7,7 @@ import PagamentoValidator from './app/validators/PagamentoValidator';
 const routes = new Router();
 
 routes.get('/health', (req, res) => {
-  return res.json({ ok: 'teste11' });
+  return res.json({ ok: 'teste12' });
 });
 
 routes.get('/listar', PagamentoController.listar);
