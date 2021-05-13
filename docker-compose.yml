@@ -14,6 +14,7 @@ services:
       - DB_PASS=mudar123
       - DB_NAME=curso-beta-pagamento
       - EAD_URL=https://ead-dev.cursobeta.com.br
+      - URL_POST_BACK=https://dev-curso-beta-pagamentos.cursobeta.com.br/postBack
     ports:
       - 80:80
     command: npm run deploy

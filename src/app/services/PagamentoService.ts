@@ -108,6 +108,8 @@ class PagamentoService {
       };
     }
 
+    console.log(payload);
+
     const buscaTransacao = await Transacoes.findOne({
       where: {
         transacao_id: payload.id
