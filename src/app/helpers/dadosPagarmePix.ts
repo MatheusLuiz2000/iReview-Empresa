@@ -1,11 +1,16 @@
 export default function(dados) {
   return {
-    card_id: dados.clientCard,
     payment_method: dados.tipo_pagamento,
     amount: dados.total_operacao,
-    installments: dados.numero_parcelas,
     postback_url: process.env.URL_POST_BACK,
     async: false,
+    pix_expiration_date: '2021-05-14',
+    pix_additional_fields: [
+      {
+        name: 'Quantidade',
+        value: '1'
+      }
+    ],
     customer: {
       external_id: dados.customer.id_proprio,
       name: dados.customer.nome,
@@ -18,17 +23,7 @@ export default function(dados) {
           number: dados.customer.documento
         }
       ],
-      phone_numbers: [dados.customer.telefone_contato],
-      birthday: dados.customer.data_nascimento
-    },
-    items: [
-      {
-        tangible: dados.item.tangivel,
-        quantity: dados.item.quantidade,
-        unit_price: dados.item.preco_unitario,
-        title: dados.item.titulo_item,
-        id: dados.item.id_item.toString()
-      }
-    ]
+      phone_numbers: [dados.customer.telefone_contato]
+    }
   };
 }

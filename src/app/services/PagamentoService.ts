@@ -9,19 +9,19 @@ import Status from '../models/Status';
 
 // Helps
 import dadosPagarme from '../helpers/dadosPagarme';
-import TiposPagamento from '../models/TiposPagamento';
+import dadosPagarmePix from '../helpers/dadosPagarmePix';
 import salvarTransacao from '../helpers/salvarTransacao';
 import queryParams from '../util/queryParams';
 import conexaoPargarme from '../helpers/conexaoPargarme';
 import criarCartaoID from '../helpers/criarCartaoID';
 import HistoricoTransacoes from '../models/HistoricoTransacoes';
 import CartoesClientes from '../models/CartoesClientes';
-import enviarEmail from '../helpers/enviarEmail';
 import EAD from '../../api/EAD';
+import retornoTransacao from '../util/retornoTransacao';
 
 class PagamentoService {
   listar = async query => {
-    const buscaTransacao = await Transacoes.findAll(queryParams(query));
+    const buscaTransacao = await Transacoes.findOne(queryParams(query));
 
     return {
       status: 200,
@@ -60,8 +60,13 @@ class PagamentoService {
         dados.cartao_id = clientCard.cartao_id;
       }
 
+      const dadosPagar =
+        dados.tipo_pagamento === 'credit_card'
+          ? dadosPagarme(dados)
+          : dadosPagarmePix(dados);
+
       const createTransaction = await client.data.transactions.create(
-        dadosPagarme(dados)
+        dadosPagar
       );
 
       logError('Transacao', createTransaction);
@@ -81,9 +86,10 @@ class PagamentoService {
 
       return {
         status: 200,
-        data: createTransaction.status === 'paid'
+        data: retornoTransacao(dados.tipo_pagamento, createTransaction)
       };
     } catch (error) {
+      console.log('error transacao', error);
       logError('Erro ao transação', error);
 
       return {
