@@ -143,7 +143,7 @@ class PagamentoService {
 
     console.log('aqui!!');
 
-    if (payload.current_status === 'paid') {
+    if (payload.current_status === 'paid' && buscaTransacao.status_id !== 2) {
       await EAD.efetivaMatricula(
         buscaTransacao.cliente_id,
         buscaTransacao.tipo_curso,
