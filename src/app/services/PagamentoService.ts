@@ -34,7 +34,7 @@ class PagamentoService {
     const regitraCliente = await EAD.registraUsuario(dados);
 
     dados.cliente_id = regitraCliente.data.user.id;
-    dados.customer.id_proprio = regitraCliente.data.user.id;
+    dados.customer.id_proprio = regitraCliente.data.user.id.toString();
 
     const client = await conexaoPargarme();
 
@@ -91,7 +91,7 @@ class PagamentoService {
         data: retornoTransacao(dados.tipo_pagamento, createTransaction)
       };
     } catch (error) {
-      console.log('error transacao', error);
+      console.log('error transacao', error.response.errors);
       logError('Erro ao transação', error);
 
       return {
