@@ -36,6 +36,7 @@ class App {
   exceptionHandler() {
     this.server.use(async (err, req, res, next) => {
       const errors = await new Youch(err, req).toJSON();
+      console.log('erro interno', errors);
       return res
         .status(500)
         .json({ error: 'Erro interno do servidor', errors });

@@ -34,6 +34,7 @@ class PagamentoService {
     const regitraCliente = await EAD.registraUsuario(dados);
 
     dados.cliente_id = regitraCliente.data.user.id;
+    dados.customer.id_proprio = regitraCliente.data.user.id;
 
     const client = await conexaoPargarme();
 
@@ -101,6 +102,7 @@ class PagamentoService {
   };
 
   postBack = async dados => {
+    console.log('req body', dados);
     const payload = Object.fromEntries(new URLSearchParams(dados.payload));
 
     if (!dados) {
