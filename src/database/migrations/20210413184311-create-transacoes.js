@@ -15,6 +15,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      tipo_curso: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
       transacao_id: {
         type: Sequelize.INTEGER,
         allowNull: false

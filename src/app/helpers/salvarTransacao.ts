@@ -8,6 +8,7 @@ export default async function(dados, transacao, erro = '') {
   const {
     cliente_id,
     produto_id,
+    tipo_curso,
     total_operacao,
     numero_parcelas,
     valor_parcelas,
@@ -32,6 +33,7 @@ export default async function(dados, transacao, erro = '') {
   const transacaoID = await Transacoes.create({
     cliente_id,
     produto_id,
+    tipo_curso,
     transacao_id: transacao.id,
     cartao_id: cartao_id || null,
     total_operacao,
@@ -45,7 +47,8 @@ export default async function(dados, transacao, erro = '') {
 
   await HistoricoTransacoes.create({
     transacao_id: transacaoID.id,
-    json: transacao
+    json: transacao,
+    json_dados: dados
   });
 
   let tipoEmail = 2;

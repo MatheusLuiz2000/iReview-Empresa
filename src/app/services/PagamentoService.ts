@@ -14,6 +14,7 @@ import salvarTransacao from '../helpers/salvarTransacao';
 import queryParams from '../util/queryParams';
 import conexaoPargarme from '../helpers/conexaoPargarme';
 import criarCartaoID from '../helpers/criarCartaoID';
+import enviarEmail from '../helpers/enviarEmail';
 import HistoricoTransacoes from '../models/HistoricoTransacoes';
 import CartoesClientes from '../models/CartoesClientes';
 import EAD from '../../api/EAD';
@@ -116,13 +117,57 @@ class PagamentoService {
       }
     });
 
+    console.log(buscaTransacao);
+
     if (!buscaTransacao) {
-      logError('Erro ao encontrar transacao', buscaTransacao);
+      logError('Erro ao encontrar transacao', {});
 
       return {
         status: 400
       };
     }
+
+    const buscaHistoricoTransacao = await HistoricoTransacoes.findOne({
+      where: {
+        transacao_id: buscaTransacao.id
+      }
+    });
+
+    if (!buscaHistoricoTransacao) {
+      logError('Erro ao encontrar historico transacao', buscaTransacao);
+
+      return {
+        status: 400
+      };
+    }
+
+    console.log('aqui!!');
+
+    if (payload.current_status === 'paid') {
+      await EAD.efetivaMatricula(
+        buscaTransacao.cliente_id,
+        buscaTransacao.tipo_curso,
+        buscaTransacao.produto_id
+      );
+
+      await enviarEmail(
+        1,
+        buscaTransacao.id,
+        buscaHistoricoTransacao.json_dados.customer.email,
+        buscaHistoricoTransacao.json_dados.item.titulo_item,
+        buscaHistoricoTransacao.json_dados.numero_parcelas,
+        parseFloat(buscaHistoricoTransacao.json_dados.valor_parcelas).toFixed(
+          2
+        ),
+        parseFloat(
+          buscaHistoricoTransacao.json_dados.total_operacao_currency
+        ).toFixed(2),
+        buscaHistoricoTransacao.json_dados.customer.nome,
+        ''
+      );
+    }
+
+    console.log('aqui3!!');
 
     const buscaStatus = await Status.findOne({
       where: {
@@ -141,10 +186,15 @@ class PagamentoService {
       }
     );
 
+    console.log('aqui4!!');
+
     await HistoricoTransacoes.create({
       transacao_id: buscaTransacao.id,
-      json: payload
+      json: payload,
+      json_dados: buscaHistoricoTransacao.json_dados
     });
+
+    console.log('aqui5!!');
 
     return {
       status: 200,

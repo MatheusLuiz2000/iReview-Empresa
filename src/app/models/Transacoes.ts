@@ -8,6 +8,7 @@ class Transacoes extends Model {
       {
         cliente_id: Sequelize.INTEGER,
         produto_id: Sequelize.INTEGER,
+        tipo_curso: Sequelize.INTEGER,
         transacao_id: Sequelize.INTEGER,
         cartao_id: Sequelize.INTEGER,
         total_operacao: Sequelize.DECIMAL(18, 2),

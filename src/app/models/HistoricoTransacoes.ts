@@ -8,6 +8,7 @@ class HistoricoTransacoes extends Model {
       {
         transacao_id: Sequelize.INTEGER,
         json: Sequelize.JSON,
+        json_dados: Sequelize.JSON,
         desativado_em: Sequelize.DATE
       },
       {
