@@ -102,24 +102,15 @@ class PagamentoService {
   };
 
   postBack = async dados => {
-    console.log('REQ BODY DEVOLVEU ISSO', dados);
-    const payload = Object.fromEntries(new URLSearchParams(dados.payload));
-
     if (!dados) {
       return {
         status: 400
       };
     }
 
-    console.log('TENTANDO DADO AQUI', dados.id);
-    console.log('PAY LOAD DEVOLVEU ISSO', payload);
-    console.log('ID DO PAYLOAD', payload.id);
-
-    console.log(payload);
-
     const buscaTransacao = await Transacoes.findOne({
       where: {
-        transacao_id: payload.id
+        transacao_id: dados.id
       }
     });
 
@@ -149,7 +140,7 @@ class PagamentoService {
 
     console.log('aqui!!');
 
-    if (payload.current_status === 'paid' && buscaTransacao.status_id !== 2) {
+    if (dados.current_status === 'paid' && buscaTransacao.status_id !== 2) {
       await EAD.efetivaMatricula(
         buscaTransacao.cliente_id,
         buscaTransacao.tipo_curso,
@@ -177,7 +168,7 @@ class PagamentoService {
 
     const buscaStatus = await Status.findOne({
       where: {
-        nome: payload.current_status
+        nome: dados.current_status
       }
     });
 
@@ -196,7 +187,7 @@ class PagamentoService {
 
     await HistoricoTransacoes.create({
       transacao_id: buscaTransacao.id,
-      json: payload,
+      json: dados,
       json_dados: buscaHistoricoTransacao.json_dados
     });
 
@@ -209,7 +200,7 @@ class PagamentoService {
   };
 
   parcelamentoSemLimites = async dados => {
-    const data2 = Object.fromEntries(new URLSearchParams(dados.payload));
+    const data2 = Object.fromEntries(new URLSearchParams(dados.dados));
 
     const buscaTransacao = await Transacoes.findOne({
       where: {
