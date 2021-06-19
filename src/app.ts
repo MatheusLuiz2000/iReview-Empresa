@@ -9,6 +9,7 @@ import routes from './routes';
 import middlewares from './config/middlewares';
 
 import './database';
+import tipoArea from './app/models/TipoArea';
 
 class App {
   server: express.Application;
